@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тестовая лекция — от HTML до пикселя</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #161b23;
+    --border: #262d38;
+    --text: #e6e9ef;
+    --muted: #96a0b0;
+    --accent: #7aa2ff;
+    --accent2: #6ee7a8;
+    --warn: #ffb86b;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: clamp(15px, 1.15vw, 19px);
+    line-height: 1.55;
+    overflow: hidden;
+  }
+  #deck { height: 100%; display: flex; flex-direction: column; }
+
+  .slide {
+    flex: 1;
+    display: none;
+    padding: clamp(28px, 5vw, 72px) clamp(24px, 7vw, 96px);
+    overflow-y: auto;
+    animation: fade .22s ease-out;
+  }
+  .slide.active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .slide h1 { font-size: clamp(28px, 3.4vw, 48px); line-height: 1.15; margin: 0 0 .4em; letter-spacing: -.02em; }
+  .slide h2 { font-size: clamp(21px, 2.1vw, 32px); line-height: 1.25; margin: 0 0 .7em; letter-spacing: -.01em; }
+  .slide p { margin: 0 0 .8em; max-width: 62ch; }
+  .lead { color: var(--muted); font-size: 1.06em; }
+  .kicker {
+    color: var(--accent); text-transform: uppercase; letter-spacing: .12em;
+    font-size: .72em; font-weight: 600; margin-bottom: 1.1em;
+  }
+  strong { color: #fff; font-weight: 600; }
+  em { color: var(--accent2); font-style: normal; }
+
+  ul, ol { max-width: 62ch; padding-left: 1.3em; }
+  li { margin: .35em 0; }
+  li::marker { color: var(--accent); }
+
+  code {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    font-size: .89em;
+    background: #1d2430; border: 1px solid var(--border);
+    padding: .1em .38em; border-radius: 4px;
+  }
+  pre {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; overflow-x: auto; max-width: 100%;
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    font-size: .84em; line-height: 1.6; margin: 0 0 1em;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: 1em; }
+  .t-kw { color: #c792ea; } .t-str { color: #a5e8a1; } .t-fn { color: #82aaff; } .t-com { color: #5c6879; font-style: italic; }
+
+  .columns { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 40px); align-items: start; }
+  @media (max-width: 820px) { .columns { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .card h3 { margin: 0 0 .4em; font-size: 1em; color: var(--accent); }
+  .card p:last-child { margin-bottom: 0; }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 1.2em 0; }
+  .step {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-size: .9em; white-space: nowrap;
+  }
+  .step b { color: var(--accent); font-weight: 600; }
+  .arrow { color: var(--muted); }
+
+  button {
+    font: inherit; color: var(--text); background: #212936;
+    border: 1px solid #38455a; border-radius: 8px;
+    padding: 9px 16px; cursor: pointer; transition: background .15s, border-color .15s;
+  }
+  button:hover { background: #2a3444; border-color: var(--accent); }
+  button:active { transform: translateY(1px); }
+  button.primary { background: #2b4a8f; border-color: #3d63b8; }
+  button.primary:hover { background: #34569f; }
+
+  input[type="text"] {
+    font: inherit; color: var(--text); background: #10151d;
+    border: 1px solid #38455a; border-radius: 8px; padding: 9px 12px; min-width: 220px;
+  }
+  input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .demo {
+    background: #10151d; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; margin-top: 1em;
+  }
+  .demo-label {
+    color: var(--muted); font-size: .74em; text-transform: uppercase;
+    letter-spacing: .1em; margin-bottom: .8em;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  #nodeList { margin: 14px 0 0; padding: 0; list-style: none; }
+  #nodeList li {
+    font-family: ui-monospace, monospace; font-size: .84em;
+    background: #161b23; border: 1px solid #2b3444; border-radius: 6px;
+    padding: 6px 10px; margin: 0 0 6px; color: var(--accent2);
+  }
+  #log { font-family: ui-monospace, monospace; font-size: .8em; color: var(--muted); margin-top: 10px; min-height: 1.4em; }
+
+  footer {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 12px clamp(24px, 7vw, 96px);
+    border-top: 1px solid var(--border); background: #0b0e13;
+    font-size: .8em; color: var(--muted);
+  }
+  .progress { height: 2px; background: #1a2029; }
+  .progress > div { height: 100%; width: 0; background: var(--accent); transition: width .22s ease; }
+  footer nav { display: flex; gap: 8px; }
+  footer button { padding: 5px 12px; font-size: .95em; }
+  .counter { font-variant-numeric: tabular-nums; }
+
+  .notes { color: var(--muted); font-size: .85em; border-left: 2px solid var(--border); padding-left: 14px; margin-top: 1.4em; }
+</style>
+</head>
+<body>
+<div id="deck">
+
+  <!-- 1 -->
+  <section class="slide active">
+    <div class="kicker">lecture-frontend · тестовый деплой</div>
+    <h1>От HTML до пикселя</h1>
+    <p class="lead">Что на самом деле происходит в браузере, пока вы смотрите на страницу, — и почему это знание меняет то, как вы пишете код.</p>
+    <div class="notes">Дек в одном HTML-файле, без сборки. Навигация: ← → пробел.</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="kicker">Шаг 1</div>
+    <h2>Пять стадий, которые проходит каждая страница</h2>
+    <div class="flow">
+      <span class="step"><b>HTML</b> → DOM</span><span class="arrow">→</span>
+      <span class="step"><b>CSS</b> → CSSOM</span><span class="arrow">→</span>
+      <span class="step">render tree</span><span class="arrow">→</span>
+      <span class="step">layout</span><span class="arrow">→</span>
+      <span class="step">paint</span>
+    </div>
+    <p>Браузер не «рисует HTML». Он строит два дерева — структуру и стили, — сливает их, считает геометрию и только потом закрашивает пиксели.</p>
+    <ul>
+      <li><strong>DOM</strong> — дерево узлов из разметки. Его видно в DevTools, им можно управлять из JS.</li>
+      <li><strong>CSSOM</strong> — то же для стилей: каскад, наследование, итоговые значения.</li>
+      <li><strong>Layout</strong> — где и какого размера каждый блок. Самая дорогая стадия.</li>
+      <li><strong>Paint</strong> — заливка. Здесь появляются настоящие пиксели.</li>
+    </ul>
+    <div class="notes">Ключевая мысль: дерево отрисовки не равно DOM — узел с <code>display: none</code> в него не попадает.</div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <div class="kicker">Шаг 2</div>
+    <h2>DOM — это живая структура, а не текст</h2>
+    <div class="columns">
+      <div>
+        <p>Каждый вызов, меняющий разметку, порождает узлы. Они сразу становятся частью дерева — их можно найти в Elements и посчитать через <code>childElementCount</code>.</p>
+        <pre><code><span class="t-kw">const</span> p = document.<span class="t-fn">createElement</span>(<span class="t-str">'p'</span>);
+p.textContent = <span class="t-str">'новый узел'</span>;
+list.<span class="t-fn">append</span>(p);          <span class="t-com">// узел в дереве</span>
+console.<span class="t-fn">log</span>(list.children.length);</code></pre>
+      </div>
+      <div class="demo">
+        <div class="demo-label">Работает прямо здесь</div>
+        <div class="row">
+          <button class="primary" id="addNode">Добавить узел</button>
+          <button id="resetNodes">Сбросить</button>
+        </div>
+        <ul id="nodeList"></ul>
+        <div id="log">узлов: 0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="kicker">Шаг 3</div>
+    <h2>Почему «просто поменять класс» иногда дорого</h2>
+    <div class="columns">
+      <div class="card">
+        <h3>Меняем paint</h3>
+        <p><code>color</code>, <code>background</code>, <code>box-shadow</code>. Геометрия не меняется — браузер перекрашивает область и идёт дальше.</p>
+      </div>
+      <div class="card">
+        <h3>Меняем layout</h3>
+        <p><code>width</code>, <code>margin</code>, <code>font-size</code>, добавление узла в поток. Пересчитывается геометрия, часто — всего документа.</p>
+      </div>
+    </div>
+    <p style="margin-top:1.2em">Отсюда два практических правила: не читать геометрию в цикле после каждой записи (<em>layout thrashing</em>) и не вставлять разметку строкой на каждое событие ввода.</p>
+    <pre><code><span class="t-com">// плохо: перестройка DOM на каждый символ</span>
+input.<span class="t-fn">addEventListener</span>(<span class="t-str">'input'</span>, e =&gt; {
+  list.innerHTML = items.<span class="t-fn">map</span>(i =&gt; <span class="t-str">`&lt;li&gt;${i}&lt;/li&gt;`</span>).<span class="t-fn">join</span>(<span class="t-str">''</span>);
+});</code></pre>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="kicker">Шаг 4</div>
+    <h2>Событие: от клика до обработчика</h2>
+    <p>Событие не «приходит в кнопку». Оно идёт от корня документа вниз (<em>capture</em>), затем всплывает обратно (<em>bubble</em>). Обработчик по умолчанию срабатывает на всплытии.</p>
+    <div class="demo">
+      <div class="demo-label">Проверить порядок фаз</div>
+      <div class="row">
+        <button id="bubbleBtn">Кнопка (bubble)</button>
+        <input type="text" id="textInput" placeholder="начните печатать">
+      </div>
+      <div id="log2">журнал пуст</div>
+    </div>
+    <div class="notes">Спросить группу: почему обработчик на <code>document</code> видит клик по кнопке, у которой нет своего обработчика.</div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="kicker">Итог</div>
+    <h2>Что забираем с лекции</h2>
+    <ul>
+      <li>DOM и CSSOM — два дерева, которые сливаются в дерево отрисовки.</li>
+      <li>Layout дороже paint: меняйте то, что не двигает геометрию, когда это возможно.</li>
+      <li>Событие проходит путь capture → target → bubble, и на этом строится делегирование.</li>
+      <li>DevTools → Performance показывает все стадии на реальном взаимодействии.</li>
+    </ul>
+    <p style="margin-top:1.4em" class="lead">Упражнение и команды запуска — в <a href="README.md" style="color:var(--accent)">README.md</a> рядом с лекцией.</p>
+  </section>
+
+  <div class="progress"><div id="bar"></div></div>
+  <footer>
+    <span>Тестовая лекция · <span class="counter"><span id="cur">1</span> / <span id="total">6</span></span></span>
+    <nav>
+      <button id="prev" aria-label="Назад">←</button>
+      <button id="next" aria-label="Вперёд">→</button>
+    </nav>
+  </footer>
+</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const bar = document.getElementById('bar');
+  const cur = document.getElementById('cur');
+  document.getElementById('total').textContent = slides.length;
+  let index = 0;
+
+  function show(i, push = true) {
+    index = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, n) => s.classList.toggle('active', n === index));
+    cur.textContent = index + 1;
+    bar.style.width = ((index + 1) / slides.length * 100) + '%';
+    if (push) history.replaceState(null, '', '#' + (index + 1));
+  }
+
+  const fromHash = Number(location.hash.slice(1));
+  show(Number.isFinite(fromHash) && fromHash > 0 ? fromHash - 1 : 0, false);
+
+  document.getElementById('next').onclick = () => show(index + 1);
+  document.getElementById('prev').onclick = () => show(index - 1);
+
+  addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(index + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(index - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+  });
+
+  // слайд 3: добавление узлов
+  const list = document.getElementById('nodeList');
+  const log = document.getElementById('log');
+  const render = () => { log.textContent = 'узлов: ' + list.children.length; };
+  document.getElementById('addNode').onclick = () => {
+    const li = document.createElement('li');
+    const t = performance.now();
+    li.textContent = 'p#' + (list.children.length + 1) + '  ·  append';
+    list.append(li);
+    render();
+    console.log('append занял', (performance.now() - t).toFixed(2), 'мс');
+  };
+  document.getElementById('resetNodes').onclick = () => { list.replaceChildren(); render(); };
+
+  // слайд 5: фазы события
+  const log2 = document.getElementById('log2');
+  const push = (m) => { log2.textContent = log2.textContent === 'журнал пуст' ? m : log2.textContent + ' → ' + m; };
+  document.querySelector('.slide:nth-of-type(5) .demo').addEventListener('click', () => push('bubble на контейнере'), false);
+  document.querySelector('.slide:nth-of-type(5) .demo').addEventListener('click', () => push('capture у контейнера'), true);
+  document.getElementById('bubbleBtn').onclick = () => push('target: кнопка');
+  document.getElementById('textInput').addEventListener('input', e => { log2.textContent = 'input: «' + e.target.value + '»'; });
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фронтенд: лекции</title>
+<style>
+  :root { --bg:#0e1116; --panel:#161b23; --border:#262d38; --text:#e6e9ef; --muted:#96a0b0; --accent:#7aa2ff; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.6; padding: clamp(28px, 6vw, 80px) clamp(20px, 6vw, 80px);
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  h1 { font-size: clamp(26px, 3vw, 40px); letter-spacing: -.02em; margin: 0 0 .3em; }
+  .lead { color: var(--muted); margin: 0 0 2.4em; max-width: 60ch; }
+  h2 { font-size: .78em; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin: 0 0 1em; }
+  ul { list-style: none; padding: 0; margin: 0 0 2.6em; }
+  li { border-bottom: 1px solid var(--border); }
+  li:first-child { border-top: 1px solid var(--border); }
+  a.item {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    padding: 15px 4px; color: var(--text); text-decoration: none;
+  }
+  a.item:hover { background: var(--panel); }
+  a.item span { color: var(--muted); font-size: .86em; white-space: nowrap; }
+  a.item a, a { color: var(--accent); }
+  .tag {
+    font-size: .72em; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); border: 1px solid var(--border); border-radius: 20px;
+    padding: 2px 10px; margin-left: 10px;
+  }
+  footer { color: var(--muted); font-size: .85em; border-top: 1px solid var(--border); padding-top: 1.4em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Фронтенд: материалы курса</h1>
+  <p class="lead">Деки лекций, практика и лабораторные. Каждая лекция — отдельный каталог, запускается без сборки.</p>
+
+  <h2>В этом репозитории</h2>
+  <ul>
+    <li><a class="item" href="lectures/test/"><b>Тестовая лекция: от HTML до пикселя<span class="tag">дека</span></b><span>6 слайдов · DOM, layout, paint, события</span></a></li>
+    <li><a class="item" href="Лабораторная%20работа%207.md"><b>Лабораторная работа 7</b><span>Markdown</span></a></li>
+    <li><a class="item" href="Лабораторная%20работа%207.pdf"><b>Лабораторная работа 7</b><span>PDF</span></a></li>
+  </ul>
+
+  <h2>Лекции курса</h2>
+  <ul>
+    <li><a class="item" href="https://github.com/ngg-dev/it-lecture"><b>1. Вводная</b><span>HTML/CSS/JS, компоненты, типы, сборка</span></a></li>
+    <li><a class="item" href="https://github.com/ngg-dev/react-lecture"><b>2. React</b><span>DOM, JSX, props, useState, npm</span></a></li>
+    <li><a class="item" href="https://github.com/ngg-dev/react-api-lecture"><b>3. React и API</b><span>fetch, useEffect, состояния загрузки</span></a></li>
+    <li><a class="item" href="https://github.com/ngg-dev/react-state-managers"><b>4. State-менеджеры</b><span>Router, Redux Toolkit, RTK Query</span></a></li>
+    <li><a class="item" href="https://github.com/ngg-dev/ts-lecture"><b>5. TypeScript</b><span>Типы, дженерики, TS в React</span></a></li>
+  </ul>
+
+  <footer>Хостится на GitHub Pages из ветки <code>main</code>.</footer>
+</main>
+</body>
+</html>
