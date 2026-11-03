@@ -1,0 +1,12 @@
+import {build} from 'esbuild';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+const shopSource=await readFile('src/shop-demo.js','utf8');
+const result=await build({entryPoints:['src/lecture.jsx'],bundle:true,minify:true,format:'iife',platform:'browser',target:['es2020'],define:{'process.env.NODE_ENV':'"production"','__SHOP_SOURCE__':JSON.stringify(shopSource)},write:false,legalComments:'inline',plugins:[{name:'local-npm-resolution',setup(api){api.onResolve({filter:/^[^./]/},args=>({path:require.resolve(args.path)}));}}]});
+const css=await readFile('src/styles.css','utf8');
+const js=result.outputFiles[0].text.replace(/<\/script/gi,'<\\/script');
+const html=`<!doctype html>\n<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f6fbff"><meta name="description" content="Интерактивная лекция: данные, интерфейсы и современные инструменты разработки."><title>От JavaScript к компонентам — лекция</title><style>${css}</style></head><body><div id="root"></div><noscript>Включите JavaScript, чтобы открыть интерактивную лекцию.</noscript><script>${js}</script></body></html>`;
+await mkdir('publish',{recursive:true});
+await writeFile('presentation.html',html);await writeFile('publish/index.html',html);
+console.log(`Готово: presentation.html и publish/index.html (${Math.round(html.length/1024)} КБ символов)`);

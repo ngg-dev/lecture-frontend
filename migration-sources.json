@@ -1,0 +1,553 @@
+[
+  {
+    "name": "it-lecture",
+    "repository": "https://github.com/ngg-dev/it-lecture",
+    "commit": "0e45be4136eaad07b2b320c4d1c7018cbccf6e56",
+    "files": [
+      {
+        "path": ".github/workflows/pages.yml",
+        "sha256": "123c03deed2cc9b8d693bebcffcf5a098eb9a0edcebf607f29fddbcde33ea8b8"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "311bc78adc1177174db7cafc27df700ae46743148b180f7fa8e42114d0a49a26"
+      },
+      {
+        "path": "README.md",
+        "sha256": "265c5f5625189febc42419c32d7ced555f2a3e57f49596c93b1ac39d9632af57"
+      },
+      {
+        "path": "browser-deck/.gitignore",
+        "sha256": "7fb60f0e308b79ca5542458bb9125a342ea03fdb2d4c8834b4d7e44384ce1d12"
+      },
+      {
+        "path": "browser-deck/README.md",
+        "sha256": "6a2f08070f013e33db329a97bb187114e44e0e3e75d0559aa0601cc587859fd9"
+      },
+      {
+        "path": "browser-deck/dist/.nojekyll",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "browser-deck/dist/app.js",
+        "sha256": "ba16b11f04bc93aff4b59ab10d0c8dab3bc543d1325a37b6edd3da76e3f6ed2a"
+      },
+      {
+        "path": "browser-deck/dist/assets/frontend-hero.png",
+        "sha256": "234180a55eae6077bdd20ddf800da1ec32ea13e121e3683a39b318d2ce004dae"
+      },
+      {
+        "path": "browser-deck/dist/assets/hack-site-hero-crop.png",
+        "sha256": "2537e3935e51f070fc76d0ec2a6eab9912e6f62c8fce0a9dd72c4e212913872d"
+      },
+      {
+        "path": "browser-deck/dist/assets/hack-site-prizes-crop.png",
+        "sha256": "4ab7cc748c9b94ad198ac5ce0f6a3aa25b8a45ce9e8792ed43011c85e4551008"
+      },
+      {
+        "path": "browser-deck/dist/assets/hack-site-tracks-crop.jpg",
+        "sha256": "d37c35c5b18fcb491ffe6fbe9aefe55f0faa0fbbea5e2f5a0c26fe1375a54f34"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/dino.png",
+        "sha256": "3430a9e57484d37478c57a5bd4d222ede8a6f785197c3656f4ed7bd6fd95bb45"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/figma.png",
+        "sha256": "e6cad092910632c7ca1a416efab86767db6eaa2ed5073bea42e10435555b9c74"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/obsidian.png",
+        "sha256": "ccc5cf210bf7032d8040fb7027dd3ca1213c7a03dac20030742648130341cd07"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/slack.jpg",
+        "sha256": "7cfe23de2fac0c93b39902388c2ed05880a1c293e5d7df2f6a4ce670e916cafb"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/sources.json",
+        "sha256": "94a727ea80fc35314c0fc22fbe586719d1503bbf7e472f22d7bfa18210954421"
+      },
+      {
+        "path": "browser-deck/dist/assets/projects/vscode.png",
+        "sha256": "c821ef709d11e92ef5cb6aa00635435c78329a956bff1a6c4e26d815029e5c9d"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/git.svg",
+        "sha256": "717a57ea97bf7e86de721dab3e68afac66332a10676d5c9abce4ae6a5a9c9983"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/javascript.svg",
+        "sha256": "0656ff65fc8eeacda5c78d7f9ffe91ec1eb919db64f56e0b7dcd460af4bbd36c"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/nodejs.svg",
+        "sha256": "3218687c5ea24a4d4c0a33dc5c287da38c33a72dcfe9382469d7ce4e0bf661fb"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/playwright.svg",
+        "sha256": "c829ee41780a2c9748b9aeeeec530dc9ceeade68687e252ff7f044c16a8c384b"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/react.svg",
+        "sha256": "5825b649c8c04dec13ecf01d0182401bd0ec71789d2fa06224866d882cd1515f"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/redux.svg",
+        "sha256": "72a56f5d8acc368b77624e1e7b7d8a2acbbc070ac6bf5d1b9979c92072d89962"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/sass.svg",
+        "sha256": "c5cfd1072695faba7d5c23ee4c4e373dad16463cb55980e8118002d445bd764e"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/tailwindcss.svg",
+        "sha256": "f8cec54589553807eb603bcaf4e056aa090196211698b056542e3cc62a2f3448"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/typescript.svg",
+        "sha256": "c9191199f4049920c2fc19035b8a6664f37f4689fcd9e8434e786097e78863f0"
+      },
+      {
+        "path": "browser-deck/dist/assets/tech/vitejs.svg",
+        "sha256": "f84e50febcb3a2a81399c9a1ae76d96dc235428202f91610b6f36bfb5b62051a"
+      },
+      {
+        "path": "browser-deck/dist/index.html",
+        "sha256": "ad2d522cc14ba50d354f81888ec9efaba9e84f2eba083152e12be0468b77a1ac"
+      },
+      {
+        "path": "browser-deck/dist/slides.js",
+        "sha256": "cb5e7796b1cff38ada23eb833ad0ed27ed7d3740f4209335c85f8d8d7f15c207"
+      },
+      {
+        "path": "browser-deck/dist/styles.css",
+        "sha256": "4d77a1b7af840e283299a51621089d484f85cecffc273aab9306918ab008484c"
+      },
+      {
+        "path": "browser-deck/export-standalone.mjs",
+        "sha256": "765b6837e0b67d72a985d1d258dec301f37ad0ed145046a56ed7ea2ae304bc18"
+      },
+      {
+        "path": "browser-deck/package.json",
+        "sha256": "85acddb24149288588edde7e24040e817a6e7d794a10485363351b33af85e885"
+      },
+      {
+        "path": "browser-deck/server.mjs",
+        "sha256": "e441cb2054c5afa505c17230e8ee53d52286bb41cacad9afbd8e8973f8d07a8f"
+      },
+      {
+        "path": "lecture/frontend-talk.pdf",
+        "sha256": "2eda82d55830a67ce44ca1b523fb0896f278598c908f5633c1364d5fdd2253f9"
+      },
+      {
+        "path": "lecture/talk-script-5-6-min.txt",
+        "sha256": "70c21b6cb913558abb9dd918e275f6eab549325cb4e83507b793f343813745ed"
+      },
+      {
+        "path": "package.json",
+        "sha256": "5776de4d7b2fd91de23468cf7a73f17f775ff57c7d622cba5c5c58b57a079033"
+      }
+    ]
+  },
+  {
+    "name": "react-lecture",
+    "repository": "https://github.com/ngg-dev/react-lecture",
+    "commit": "44b03bc1649ae48d9c30e7615e46f0c3b80c4c3e",
+    "files": [
+      {
+        "path": ".github/workflows/deploy-pages.yml",
+        "sha256": "0ed9b28f0988935de367318f6d4359250fdc51d1224051bf3bc4fba566ab0e1f"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "e62919b7c088168fb631d7c7a9fd7f8c4c59d061d238f5914d02ca294fc10189"
+      },
+      {
+        "path": "build.mjs",
+        "sha256": "f4da07420586038ae3887362a005d33f3473a97bf03ed3cdc15c42343f60ea16"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "59e76902a0dc46639a5d3c782598bd5078153b550b9a34cc08f0e182b8d914d1"
+      },
+      {
+        "path": "package.json",
+        "sha256": "e272b2a0aba7bf3469be7fb16baed99f20ec884b23aef1d2f2768ecadbfa5318"
+      },
+      {
+        "path": "presentation.html",
+        "sha256": "c42f106ced522b187abbceade11926d2e9ebf9bbe320346624255b79f37f6e2b"
+      },
+      {
+        "path": "publish/README.txt",
+        "sha256": "a4edade238f598fc93eb51b42fd36bb6ffc5ef5ba1a839b4fa97d8382f1e1c48"
+      },
+      {
+        "path": "publish/index.html",
+        "sha256": "c42f106ced522b187abbceade11926d2e9ebf9bbe320346624255b79f37f6e2b"
+      },
+      {
+        "path": "speaker-guide.txt",
+        "sha256": "972b39541f1e45dca4ae01be4395f8d32719dead009aac2d8c77b6b2e39eea43"
+      },
+      {
+        "path": "src/extras.jsx",
+        "sha256": "e9060f7725931c8f146f665c6a8f16c1ed7bc3f014db712ddf998a28dff8718b"
+      },
+      {
+        "path": "src/lecture.jsx",
+        "sha256": "8ccfe2500cb6f74e26c890892b4098b16d918a48da7f70e87cf2a3d4f5663c15"
+      },
+      {
+        "path": "src/shop-demo.js",
+        "sha256": "84079beb6f24d07cffeee865adb78239bbf4cc9b9151eefe2a355c98b6f383cd"
+      },
+      {
+        "path": "src/styles.css",
+        "sha256": "d07e9d1361d9ad51ea00af68584d509157b2fae8e5bcc023e281ec651937399d"
+      },
+      {
+        "path": "src/ui.jsx",
+        "sha256": "32cabe54cf31bb8532de1971d894ebe60f031db63ae18a49e1d9c0260e3e18e5"
+      },
+      {
+        "path": "Готовая лекция React/Как открыть.txt",
+        "sha256": "68b18db51f9bda12a358ba0cb4dc33bb9d86899993d143ee1d268ce2bb6bb26e"
+      },
+      {
+        "path": "Готовая лекция React/Презентация.html",
+        "sha256": "c42f106ced522b187abbceade11926d2e9ebf9bbe320346624255b79f37f6e2b"
+      }
+    ]
+  },
+  {
+    "name": "react-api-lecture",
+    "repository": "https://github.com/ngg-dev/react-api-lecture",
+    "commit": "f90c0f0ad38895ec201d9b3bba5a878639b694c7",
+    "files": [
+      {
+        "path": ".gitignore",
+        "sha256": "5bb493e7560583c0eea6767f7495236a2fcb4fc4c251971272d5442106fc04ca"
+      },
+      {
+        "path": ".nojekyll",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": ".openai/hosting.json",
+        "sha256": "b2859d4b4f27dcf59beada0a3b1fe022d0d342733e89ce4088ee14747dab4011"
+      },
+      {
+        "path": "README.md",
+        "sha256": "93efedc27cde3e4632a2a01b7d1410604581dc9ff0bc5b9763054870cb6a293c"
+      },
+      {
+        "path": "app.js",
+        "sha256": "0eeeaa2aa607bd31fecf2e479266a525867699e35a66f45e3c40d936ea74f0ab"
+      },
+      {
+        "path": "catalog-demo.js",
+        "sha256": "ac002ce05c7e9835b14fa8702668acfbe26c3384d02ad4d66717dcec07a9c12f"
+      },
+      {
+        "path": "content.js",
+        "sha256": "b210d762a3e7ddec4d5eff731c433f7c2aeac3f5d32043908b50bd28f2c81061"
+      },
+      {
+        "path": "demos.js",
+        "sha256": "00c8a7a1948d879b8c90b803bb75fa417b19975b4d4b018d2313272bbf5f4a1f"
+      },
+      {
+        "path": "index.html",
+        "sha256": "caf0869dbb460ce8152b4e15cbdee91229b9e05817f9d704bc312bb867343fb9"
+      },
+      {
+        "path": "keys-demo.js",
+        "sha256": "d7c03984f2b32aec857b4c2efbf7bfc9d27a63f6751e92dd9185ec549c155633"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "839eb839549c650279e44534c1419f7f360aaeee4de45c61fc859bf27602f84f"
+      },
+      {
+        "path": "package.json",
+        "sha256": "b5db51ad9f82ca16b74ba3ec8321b3e5efdd944290cadfda2b3bb771e2668f46"
+      },
+      {
+        "path": "scripts/build.mjs",
+        "sha256": "bb84c01a49dd02438a3fa9b3a8d173de3d3992aa620a3298cead3614df925dc8"
+      },
+      {
+        "path": "scripts/check.mjs",
+        "sha256": "7765df9c95eabacffb858ad6789606b6214debc6cfb4a9768a65eaf4470230a7"
+      },
+      {
+        "path": "src/App.jsx",
+        "sha256": "8a166c98b530c5bb30dc396335413a8fe7f9d5ab3e39b25389f1c9a664e3cd5b"
+      },
+      {
+        "path": "src/api-diagrams.js",
+        "sha256": "81753e46b2fa10e51b92fe85d0c1df10589d36f5b47703108321994d328e04e7"
+      },
+      {
+        "path": "src/catalog-story.js",
+        "sha256": "4c09f70db9ac07a8299f89538df89e57543d34af4687bef9ef8d22c44495d752"
+      },
+      {
+        "path": "src/main.jsx",
+        "sha256": "4eb2e27e3d9b2ad52722d760014ceaef179ee97552e493e438c0ec1c4741657f"
+      },
+      {
+        "path": "src/slide-renderer.js",
+        "sha256": "cb68eed13f866a36adbe8509268806f689c3e76b0d07f3f9ebb234e03f8096b7"
+      },
+      {
+        "path": "styles.css",
+        "sha256": "0d8af602cd5ddd1abdc763937b331da7b81070d750b7b6a2c6a5cb753972c333"
+      }
+    ]
+  },
+  {
+    "name": "react-state-managers",
+    "repository": "https://github.com/ngg-dev/react-state-managers",
+    "commit": "7b12d096220b080470361b536390d1897b1da5fd",
+    "files": [
+      {
+        "path": ".github/workflows/pages.yml",
+        "sha256": "2676684357efea37905c7bbf17f58dfc3ae2fb2ce90b753255d88c39190e43ca"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "ffe194a6530ecb6a165c35d032cd29d6ccb955cd5d2011bfa279d64afe898874"
+      },
+      {
+        "path": "README.md",
+        "sha256": "15fd50b39edf13e7621d0f83639554ca6246ba030027145a8ddcbb924ffa2824"
+      },
+      {
+        "path": "index.html",
+        "sha256": "ed0fe54b2ac655550b77f2776bc980bd0b6a15d6c81028f9f751d0dd413a8b91"
+      },
+      {
+        "path": "lab-api/README.md",
+        "sha256": "e599594c2791f1520a64b66311417ebb0793178863c000748d3d6bdabbcf10fd"
+      },
+      {
+        "path": "lab-api/books.json",
+        "sha256": "843134fab9cae60b5778d3e756c02f4c477cf7451f1de0348976377ff167b07b"
+      },
+      {
+        "path": "lab-api/server.mjs",
+        "sha256": "26864e4600f69d8359598942382eb885ee4f984d916003dd08dde1da74b09be0"
+      },
+      {
+        "path": "output/lab-api.zip",
+        "sha256": "3408b87cc55f9edaa145b40c518740d01b0f02c8cb49ac0c2d5f470f61126994"
+      },
+      {
+        "path": "output/pdf/Лабораторная работа 6.pdf",
+        "sha256": "9530958e75771e91b749bf24705d2a59fefc741e2a322c2752725897a1247a56"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "09aecf7f5b661929d3ee66cb3ec9950c20c5f7ef4cad2c41575bcb62651dfbcb"
+      },
+      {
+        "path": "package.json",
+        "sha256": "b63f9aba4ea52d7e25343aaf9ec7fc2609d768da7d9e7a36d1b05cf686ed05a7"
+      },
+      {
+        "path": "scripts/build.mjs",
+        "sha256": "9dcb4145ae7e7df2c9cb166d64ec061b459b6631ccc9937127df058cd303d5b3"
+      },
+      {
+        "path": "scripts/bundle-options.mjs",
+        "sha256": "c0ed760be51aea1bc1e804aaf361cc4a62c63697bfa5c6fb7e0928469e6b0b37"
+      },
+      {
+        "path": "scripts/check.mjs",
+        "sha256": "a61e07543c2f39a6f3b1f15d2ae763dc92612d1153fa3815f68016c7f00cabf4"
+      },
+      {
+        "path": "scripts/create-lab-pdf.py",
+        "sha256": "c7f600fd287f39743962d69549d0883be465a732c18913b2a7126164219628d7"
+      },
+      {
+        "path": "scripts/serve.mjs",
+        "sha256": "533e2a2d74b6a1742cb11f5ff9da70a731c86b21791453545974fb5cfd2a25a4"
+      },
+      {
+        "path": "src/Demos.jsx",
+        "sha256": "a1fb9d6c9938a1c875e979a2f7b305de8ecb7c1353fa50952adf872f66942d86"
+      },
+      {
+        "path": "src/code-flows.js",
+        "sha256": "799111955812ff3dda51ffbc1aab31720ddcbf22a782ed05bf2f09be628ca73b"
+      },
+      {
+        "path": "src/content.js",
+        "sha256": "a95bbc78855cadd072ad3d4aef5db67da8047576761bf0dcf703ae24f07ac90a"
+      },
+      {
+        "path": "src/main.jsx",
+        "sha256": "d2fcbd73aa26767edfb8844bcf81b2cd6cbfe7d4dbbf51e4e6313f948e4ddbe2"
+      },
+      {
+        "path": "src/model.js",
+        "sha256": "5f4a953856d64c2a51e695c195d51eb5ddab1bdc41fb019f035a2fd9ab5c2163"
+      },
+      {
+        "path": "styles.css",
+        "sha256": "fd8d505d4f8e9a963bbf7824a51c715dc6d2242f34b5a81852f8fec32d23adc0"
+      },
+      {
+        "path": "Лабораторная работа 6.md",
+        "sha256": "3c1907e910fef595c9b10f02b6b0021b5a126abd7cba2312659214b68270ed81"
+      }
+    ]
+  },
+  {
+    "name": "ts-lecture",
+    "repository": "https://github.com/ngg-dev/ts-lecture",
+    "commit": "cb1f547d2025c1bcb28fba454ff39c55816ebbfd",
+    "files": [
+      {
+        "path": ".github/workflows/pages.yml",
+        "sha256": "cf719f41ceb673ec649961d75d0640f359d4c4bae8f3e8c22a20c656deb54c9f"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "60346e15a809333e7e8d93c664fb03b4ddb8fa03816cce47648a421435faaa0d"
+      },
+      {
+        "path": "README.md",
+        "sha256": "8b29aa8d599ee5eb869fd14ec33c92cd5da10464333dadebfadbb91f2291cac7"
+      },
+      {
+        "path": "docs/extra-topics.md",
+        "sha256": "186a962bb9af67ce5e5c762f7c593934f344957df779014f4f33b5cbb3e67110"
+      },
+      {
+        "path": "docs/practice.md",
+        "sha256": "c337c81e71317e3090bc6cc09915bde31fc8451974c2fbc7698cf02996dfea1f"
+      },
+      {
+        "path": "docs/prior-knowledge.md",
+        "sha256": "43c6c37b4258553e0a7ebd2b8466ef13c6d985c7b61b5e00cd28c0e9f732a8ff"
+      },
+      {
+        "path": "docs/sources.md",
+        "sha256": "38e99aa1b25255bf0d2dc1249430c962879940a23d789dc366fab273d1785f5c"
+      },
+      {
+        "path": "docs/speaker-guide.md",
+        "sha256": "fb3c0d76de983b2eb7444c7962a5646c0ed86d72c9f41c03e0e1fa60461d7181"
+      },
+      {
+        "path": "examples/BookCatalog.tsx",
+        "sha256": "30e38a6b87f6a42aa83c1335e6596b695c73e30a16cbb9577111a63d6c660ec1"
+      },
+      {
+        "path": "examples/PriceEditor.tsx",
+        "sha256": "0450b36f040b1ca2041c93c33f1bafacc9a43e963be678d2cfb25b3712c0842d"
+      },
+      {
+        "path": "examples/standalone/shop.ts",
+        "sha256": "cbcdba0dc497d757b04b399cb87de19268a3b0d9712297fc1ec28588d42a34e4"
+      },
+      {
+        "path": "examples/standalone/tsconfig.json",
+        "sha256": "89b38ce6b9e54b09148a2a8dcb8c4991cf71514291e1eb3fc7a90840b1620865"
+      },
+      {
+        "path": "examples/tsconfig.json",
+        "sha256": "e9702d2c8a0d4d01763794ea2e1de1e88a7ad4f63d28894722592fe8dc57768d"
+      },
+      {
+        "path": "index.html",
+        "sha256": "bf28a4feeb0c2d3c6c2e9f89a0a275b3604f1a764ae595f29b22faf42c6855e7"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "a4c6f047e2005d34e4f56820db797c4b153f39199aac7b840c9fa35f39749e63"
+      },
+      {
+        "path": "package.json",
+        "sha256": "c347c157c25ea793da6552a2209adaf2f8dadc17978d8e9ede60b261a848e6e7"
+      },
+      {
+        "path": "scripts/build.mjs",
+        "sha256": "f9ad38d3c3f1b66f90b79f88d98df591fa5b0f985c8e5a494537c6ef64bf428c"
+      },
+      {
+        "path": "scripts/bundle-options.mjs",
+        "sha256": "c0ed760be51aea1bc1e804aaf361cc4a62c63697bfa5c6fb7e0928469e6b0b37"
+      },
+      {
+        "path": "scripts/check.mjs",
+        "sha256": "92700c135c3247a57dee3673d5dc4b6492043059b4716b4ca3d71cfd0b7c77b3"
+      },
+      {
+        "path": "scripts/compile-react-example.mjs",
+        "sha256": "31752d4bc7a2da93a21535585257e70b168c5fced799d8e7ac1e60d16e800d94"
+      },
+      {
+        "path": "scripts/serve.mjs",
+        "sha256": "a6fb486a63641448271e4ff55a3dfa86b1f9b78a55f67225700cf4798fac9c19"
+      },
+      {
+        "path": "scripts/write-guide.mjs",
+        "sha256": "7b874ab43dae0e6b3efa73d519a20088f90db1988651d053c8c04dac6bae1679"
+      },
+      {
+        "path": "src/BlueprintDrawing.jsx",
+        "sha256": "492af4f1b6c11931d6ff6cbe8847b6efa04d137ca95ec836f87d1d0ca296baf5"
+      },
+      {
+        "path": "src/Demos.jsx",
+        "sha256": "a16dff225e329b5df3fc2722172a3923a7a106e8f82f78189363626d87bbe9ee"
+      },
+      {
+        "path": "src/compiler.js",
+        "sha256": "75856fa1eb268d4db402df82664f957279439c41d408badf4e93fe723a962585"
+      },
+      {
+        "path": "src/compiler.worker.js",
+        "sha256": "60bd1293551ddb3a12a76720e83bc71e0c0d685ff8c590f7fc37c3e851b01748"
+      },
+      {
+        "path": "src/content.js",
+        "sha256": "6ff33b354152be5e7c1af199372103ed5cf9d3e964b0f1123a31852283e686f1"
+      },
+      {
+        "path": "src/example-pairs.js",
+        "sha256": "8c3da47e05f6d8f3d83f43824a3f96678e067c7e3877e980b4cfcaf579731836"
+      },
+      {
+        "path": "src/examples.js",
+        "sha256": "531289f75a841dc41e6f37d43d0903a002c06b040b1ba63a74263f6295b7bd9d"
+      },
+      {
+        "path": "src/main.jsx",
+        "sha256": "975e487bd9fec5c03351745b400f89b123394946a59e8c73c081432014fb6394"
+      },
+      {
+        "path": "src/model.js",
+        "sha256": "126fda6fb1df627aa2569f555dfc00b1ccc916bd4d97f1dbfa2803c42a95ad46"
+      },
+      {
+        "path": "src/react-examples.js",
+        "sha256": "1a60790df33b0babb6360373dd31fb4bfe76a99663b13564f4bff3b8238ef980"
+      },
+      {
+        "path": "src/snippet-diagnostics.js",
+        "sha256": "cc00756e4aef9b96d8ad533555c0d39e908a8af72da4b7ad51772a307797bc5c"
+      },
+      {
+        "path": "styles.css",
+        "sha256": "3d5b95ef3ff10a6c2d37cd4a50a319f73ebb01df305478252d96def12dbb9838"
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "it-lecture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Презентация Егора Антонова о фронтенд-разработке",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node browser-deck/server.mjs",
+    "check": "npm --prefix browser-deck run check",
+    "export": "node browser-deck/export-standalone.mjs"
+  }
+}

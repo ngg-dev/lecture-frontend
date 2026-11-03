@@ -1,0 +1,17 @@
+{
+  "name": "frontend-lectures",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "setup": "node scripts/course.mjs setup",
+    "build": "node scripts/course.mjs build",
+    "check": "node scripts/course.mjs check",
+    "test": "node --test tests/*.test.mjs",
+    "verify:migration": "node --test tests/migration.snapshot.mjs",
+    "serve": "python3 -m http.server 4170 --bind 127.0.0.1"
+  }
+}

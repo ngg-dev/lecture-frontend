@@ -1,0 +1,40 @@
+{
+  "retrieved": "2026-10-10",
+  "images": [
+    {
+      "file": "vscode.png",
+      "publisher": "Microsoft",
+      "page": "https://code.visualstudio.com/docs/getstarted/overview",
+      "asset": "https://code.visualstudio.com/assets/docs/getstarted/overview/vscode-overview.png",
+      "type": "Screenshot from official documentation"
+    },
+    {
+      "file": "dino.png",
+      "publisher": "Google",
+      "page": "https://blog.google/products-and-platforms/products/chrome/chrome-dino/",
+      "asset": "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Dino_non-birthday_version.gif",
+      "type": "First frame of the official gameplay GIF; frozen for the presentation"
+    },
+    {
+      "file": "obsidian.png",
+      "publisher": "Obsidian",
+      "page": "https://obsidian.md/",
+      "asset": "https://obsidian.md/images/banner.png",
+      "type": "Official brand banner"
+    },
+    {
+      "file": "slack.jpg",
+      "publisher": "Slack",
+      "page": "https://slack.com/features/channels",
+      "asset": "https://d34u8crftukxnk.cloudfront.net/slackpress/prod/sites/6/img-channels-ui.jpg",
+      "type": "Official illustration of the channels interface"
+    },
+    {
+      "file": "figma.png",
+      "publisher": "Figma",
+      "page": "https://www.figma.com/blog/making-the-move-to-ui3-a-guide-to-figmas-next-chapter/",
+      "asset": "https://cdn.sanity.io/images/599r6htc/regionalized/4da9c044ce351be6c76cc9aa61bc80583b118349-3262x1836.jpg?fit=max&q=75&w=1200",
+      "type": "Official Figma UI3 editorial image, converted from JPEG to PNG"
+    }
+  ]
+}

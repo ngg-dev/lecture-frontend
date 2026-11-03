@@ -1,0 +1,23 @@
+{
+  "name": "react-state-lecture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Роутинг, состояние и кеш: интерактивная лекция на примере книжного магазина",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "preview": "node scripts/serve.mjs dist"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.0.0",
+    "@reduxjs/toolkit": "^2.0.0",
+    "react-redux": "^9.0.0",
+    "zustand": "^5.0.0",
+    "@tanstack/react-query": "^5.0.0"
+  },
+  "devDependencies": { "esbuild": "^0.28.0" }
+}

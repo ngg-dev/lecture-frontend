@@ -1,0 +1,32 @@
+import { build } from 'esbuild';
+import { readdir, readFile, mkdir, copyFile, writeFile, cp } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { root, bundleOptions } from './bundle-options.mjs';
+import { writeGuide } from './write-guide.mjs';
+import ts from 'typescript';
+import { snippets, fullSource } from '../src/examples.js';
+import { compileSource } from '../src/compiler.js';
+import { snippetDiagnostics } from '../src/snippet-diagnostics.js';
+import { reactSnippets } from '../src/react-examples.js';
+import { compileReactExample } from './compile-react-example.mjs';
+await writeGuide(root);
+await mkdir(resolve(root, '.generated'), { recursive: true });
+const libraryRoot = resolve(root, 'node_modules/typescript/lib');
+const libraryNames = (await readdir(libraryRoot)).filter(name => /^lib\..*\.d\.ts$/.test(name));
+const libraries = Object.fromEntries(await Promise.all(libraryNames.map(async name => ['/' + name, await readFile(resolve(libraryRoot, name), 'utf8')])));
+await writeFile(resolve(root, '.generated/libraries.json'), JSON.stringify(libraries));
+const slideDiagnostics = Object.fromEntries(Object.entries(snippets).filter(([, snippet]) => snippet.errors.length).map(([id, snippet]) => [id, snippetDiagnostics(snippet, compileSource(ts, libraries, fullSource(snippet)))]));
+for (const [id, snippet] of Object.entries(reactSnippets)) {
+  if (snippet.errors.length) slideDiagnostics[id] = snippetDiagnostics(snippet, compileReactExample(snippet));
+}
+await writeFile(resolve(root, '.generated/slide-diagnostics.json'), JSON.stringify(slideDiagnostics));
+await writeFile(resolve(root, '.generated/emitted-examples.json'), JSON.stringify({ standalone: compileSource(ts, libraries, snippets.standalone.text).javascript }));
+const worker = await build({ ...bundleOptions, entryPoints: [resolve(root, 'src/compiler.worker.js')], write: false, format: 'iife', platform: 'browser', minify: true, legalComments: 'eof' });
+await writeFile(resolve(root, '.generated/compiler-worker.txt'), worker.outputFiles[0].text);
+await build({ ...bundleOptions, outfile: resolve(root, 'app.js'), format: 'iife', minify: true, legalComments: 'eof', loader: { '.txt': 'text' }, define: { 'process.env.NODE_ENV': '"production"' } });
+await mkdir(resolve(root, 'dist'), { recursive: true });
+for (const file of ['index.html', 'styles.css', 'app.js']) await copyFile(resolve(root, file), resolve(root, 'dist', file));
+await cp(resolve(root, 'docs'), resolve(root, 'dist/docs'), { recursive: true });
+await cp(resolve(root, 'examples'), resolve(root, 'dist/examples'), { recursive: true, filter: file => !file.includes('/dist') });
+await writeFile(resolve(root, 'dist/.nojekyll'), '');
+console.log('Готово: dist/ — автономная лекция с локальным компилятором TypeScript.');

@@ -1,0 +1,11 @@
+{
+  "name": "egor-frontend-talk",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Браузерная презентация Егора Антонова о фронтенде",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check dist/app.js && node --check dist/slides.js",
+    "export": "node export-standalone.mjs ./frontend-talk.html"
+  }
+}

@@ -24,39 +24,43 @@
     padding: 15px 4px; color: var(--text); text-decoration: none;
   }
   a.item:hover { background: var(--panel); }
-  a.item span { color: var(--muted); font-size: .86em; white-space: nowrap; }
+  a.item span { color: var(--muted); font-size: .86em; white-space: normal; }
   a.item a, a { color: var(--accent); }
   .tag {
     font-size: .72em; text-transform: uppercase; letter-spacing: .1em;
     color: var(--muted); border: 1px solid var(--border); border-radius: 20px;
     padding: 2px 10px; margin-left: 10px;
   }
+  @media (max-width: 640px) { a.item { flex-direction: column; gap: 4px; } }
   footer { color: var(--muted); font-size: .85em; border-top: 1px solid var(--border); padding-top: 1.4em; }
 </style>
 </head>
 <body>
 <main>
   <h1>Фронтенд: материалы курса</h1>
-  <p class="lead">Деки лекций, практика и лабораторные. Каждая лекция — отдельный каталог, запускается без сборки.</p>
+  <p class="lead">Все лекции курса, практика и лабораторные в одном месте. Открывайте презентации прямо в браузере — установка не нужна.</p>
 
   <h2>В этом репозитории</h2>
   <ul>
     <li><a class="item" href="lectures/hermes/"><b>Hermes Agent: личный AI-ассистент<span class="tag">дека</span></b><span>58 слайдов · Docker, Telegram, GitHub и автоматизация</span></a></li>
     <li><a class="item" href="lectures/test/"><b>Тестовая лекция: от HTML до пикселя<span class="tag">дека</span></b><span>6 слайдов · DOM, layout, paint, события</span></a></li>
+    <li><a class="item" href="packages/it-lecture/lecture/frontend-talk.pdf"><b>Вводная лекция</b><span>PDF</span></a></li>
+    <li><a class="item" href="packages/react-state-managers/output/pdf/Лабораторная%20работа%206.pdf"><b>Лабораторная работа 6</b><span>PDF</span></a></li>
+    <li><a class="item" href="packages/react-state-managers/output/lab-api.zip"><b>API для лабораторной 6</b><span>ZIP · запуск локально</span></a></li>
     <li><a class="item" href="Лабораторная%20работа%207.md"><b>Лабораторная работа 7</b><span>Markdown</span></a></li>
     <li><a class="item" href="Лабораторная%20работа%207.pdf"><b>Лабораторная работа 7</b><span>PDF</span></a></li>
   </ul>
 
-  <h2>Лекции курса</h2>
+  <h2>Лекции курса — открыть презентацию</h2>
   <ul>
-    <li><a class="item" href="https://github.com/ngg-dev/it-lecture"><b>1. Вводная</b><span>HTML/CSS/JS, компоненты, типы, сборка</span></a></li>
-    <li><a class="item" href="https://github.com/ngg-dev/react-lecture"><b>2. React</b><span>DOM, JSX, props, useState, npm</span></a></li>
-    <li><a class="item" href="https://github.com/ngg-dev/react-api-lecture"><b>3. React и API</b><span>fetch, useEffect, состояния загрузки</span></a></li>
-    <li><a class="item" href="https://github.com/ngg-dev/react-state-managers"><b>4. State-менеджеры</b><span>Router, Redux Toolkit, RTK Query</span></a></li>
-    <li><a class="item" href="https://github.com/ngg-dev/ts-lecture"><b>5. TypeScript</b><span>Типы, дженерики, TS в React</span></a></li>
+    <li><a class="item" href="lectures/it-lecture/"><b>1. Вводная</b><span>HTML/CSS/JS, компоненты, типы, сборка</span></a></li>
+    <li><a class="item" href="lectures/react-lecture/"><b>2. React</b><span>DOM, JSX, props, useState, npm</span></a></li>
+    <li><a class="item" href="lectures/react-api-lecture/"><b>3. React и API</b><span>fetch, useEffect, состояния загрузки</span></a></li>
+    <li><a class="item" href="lectures/react-state-managers/"><b>4. State-менеджеры</b><span>Router, Redux Toolkit, RTK Query</span></a></li>
+    <li><a class="item" href="lectures/ts-lecture/"><b>5. TypeScript</b><span>Типы, дженерики, TS в React</span></a></li>
   </ul>
 
-  <footer>Хостится на GitHub Pages из ветки <code>main</code>.</footer>
+  <footer><a href="https://github.com/ngg-dev/lecture-frontend">Исходники всех лекций на GitHub</a> · Презентации доступны без установки.</footer>
 </main>
 </body>
 </html>

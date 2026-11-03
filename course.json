@@ -1,0 +1,42 @@
+[
+  {
+    "id": "it-lecture",
+    "title": "Вводная: что делает фронтенд-разработчик",
+    "summary": "HTML, CSS, JavaScript, инструменты и проекты",
+    "output": "browser-deck/dist",
+    "check": true,
+    "build": false
+  },
+  {
+    "id": "react-lecture",
+    "title": "React: от JavaScript к компонентам",
+    "summary": "DOM, JSX, props, useState и сборка",
+    "output": "publish",
+    "check": false,
+    "build": true
+  },
+  {
+    "id": "react-api-lecture",
+    "title": "React и API",
+    "summary": "fetch, useEffect, загрузка, ошибки и API-слой",
+    "output": "dist",
+    "check": true,
+    "build": true
+  },
+  {
+    "id": "react-state-managers",
+    "title": "React: маршруты, состояние и кеш",
+    "summary": "React Router, Redux Toolkit, RTK Query и альтернативы",
+    "output": "dist",
+    "check": true,
+    "build": true
+  },
+  {
+    "id": "ts-lecture",
+    "title": "TypeScript: от данных к React",
+    "summary": "Типы, контракты, дженерики и React TSX",
+    "output": "dist",
+    "check": true,
+    "build": true
+  }
+]

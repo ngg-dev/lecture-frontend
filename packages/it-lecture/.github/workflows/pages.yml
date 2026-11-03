@@ -1,0 +1,54 @@
+name: Deploy lecture to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Check presentation JavaScript
+        run: npm run check
+
+      - name: Version CSS and JavaScript for browser caches
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const file = 'browser-deck/dist/index.html';
+          const html = fs.readFileSync(file, 'utf8').replace(
+            /((?:href|src)="(?:styles\.css|slides\.js|app\.js))"/g,
+            `$1?v=${process.env.GITHUB_SHA}"`
+          );
+          fs.writeFileSync(file, html);
+          JS
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload presentation
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: browser-deck/dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

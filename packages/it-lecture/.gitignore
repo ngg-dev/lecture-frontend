@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.build/
+output/
+**/.openai/
+.env
+.env.*
+!.env.example
+*.log
+*.tar.gz
+browser-deck/frontend-talk.html

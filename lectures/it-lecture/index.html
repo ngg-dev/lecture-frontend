@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ef3124">
+  <meta name="description" content="Что делает фронтенд-разработчик. Браузерная презентация Егора Антонова, senior фронтенд-разработчика.">
+  <title>Фронтенд. Интерфейсы для людей — Егор Антонов</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='22' fill='%23ef3124'/%3E%3Ctext x='40' y='53' text-anchor='middle' font-family='Arial' font-size='37' font-weight='bold' fill='white'%3E%26lt;/%26gt;%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="slides.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div id="presentation" class="presentation">
+    <header class="topbar"><div class="wordmark" aria-label="Фронтенд"><span class="brand-icon">&lt;/&gt;</span>frontend<span class="wordmark-dot">.</span></div><div class="topbar-end"><button class="tool-button" id="fullscreen" aria-label="Полный экран (F)" title="Полный экран · F"></button></div></header>
+    <main id="stage" aria-label="Презентация"></main>
+    <footer class="toolbar"><div class="slide-dots" id="slide-dots" aria-label="Перейти к слайду"></div><div class="navigation"><span class="slide-counter" id="slide-counter">01 <span>/ 07</span></span><button id="previous" class="nav-button" aria-label="Предыдущий слайд"></button><button id="next" class="nav-button nav-next" aria-label="Следующий слайд"></button></div></footer>
+    <div class="progress-track"><div id="progress"></div></div>
+  </div>
+  <div id="announcer" class="sr-only" aria-live="polite"></div>
+  <noscript><p>Для показа презентации включите JavaScript в браузере.</p></noscript>
+</body>
+</html>
