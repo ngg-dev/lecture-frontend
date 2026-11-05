@@ -54,6 +54,23 @@ test('событие клавиатуры на document не вызывает ru
   expect(errors).toEqual([]);
 });
 
+test('методология AAA предшествует коду, источники инцидентов доступны со слайда', async ({ page }) => {
+  await page.goto('./#aaa-methodology');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('AAA: методология построения теста');
+  await expect(page.locator('.concept-card')).toHaveCount(3);
+  await expect(page.locator('pre')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Следующий слайд' }).click();
+  await expect(page).toHaveURL(/#aaa$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Один тест — три части');
+  await page.goto('./#unit-setup');
+  await expect(page.locator('pre')).toContainText('"test": "jest"');
+  await expect(page.locator('article')).not.toContainText('--runInBand');
+  await expect(page.locator('article')).not.toContainText('--watchAll');
+  await page.goto('./#incident-cloudflare');
+  await expect(page.locator('.takeaway')).toContainText('Тесты были');
+  await expect(page.getByRole('link', { name: '[2] Разбор Cloudflare' })).toHaveAttribute('href', 'https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/');
+});
+
 test('все слайды без runtime-ошибок и горизонтального выхода на узком экране', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
