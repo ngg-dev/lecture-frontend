@@ -38,5 +38,13 @@
     "output": "dist",
     "check": true,
     "build": true
+  },
+  {
+    "id": "testing-lecture",
+    "title": "Unit и e2e: проверяем обещания магазина",
+    "summary": "От регрессии к Vitest, Testing Library и Playwright",
+    "output": "dist",
+    "check": true,
+    "build": true
   }
 ]

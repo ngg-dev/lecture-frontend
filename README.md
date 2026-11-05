@@ -9,6 +9,7 @@
 3. [React и API](lectures/react-api-lecture/).
 4. [React: маршруты, состояние и кеш](lectures/react-state-managers/).
 5. [TypeScript: от данных к React](lectures/ts-lecture/).
+6. [Unit и e2e: проверяем обещания магазина](lectures/testing-lecture/) — 39 слайдов, 75 минут + 20 минут практики; Vitest, Testing Library, Playwright.
 
 Дополнительно: [Hermes Agent](lectures/hermes/), [от HTML до пикселя](lectures/test/).
 
