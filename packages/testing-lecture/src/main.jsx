@@ -36,7 +36,7 @@ function UnitLab() {
     <div className="lab-tools"><label>Реализация<select aria-label="Реализация" value={version} onChange={e => { setVersion(e.target.value); setRows(null); }}><option value="buggy">Ошибка: Number(draft)</option><option value="fixed">Исправлено: parsePrice</option></select></label><button onClick={run}>Запустить проверки</button></div>
     <div role="status" aria-live="polite">{!rows ? 'Проверки ещё не запускались.' : <><strong className={rows.every(row => row.passed) ? 'pass' : 'fail'}>{rows.every(row => row.passed) ? 'Все проверки пройдены' : 'FAIL: правило нарушено'}</strong><ul className="results">{rows.map(row => <li key={row.input} className={row.passed ? 'pass' : 'fail'}>{row.passed ? 'PASS' : 'FAIL'} · {JSON.stringify(row.input)} → {String(row.actual)}; ожидаем {String(row.expected)}</li>)}</ul></>}</div>
     <label>Проверить свою цену<input aria-label="Проверить свою цену" value={draft} onChange={e => setDraft(e.target.value)} /></label><p>Результат: <code>{String(fn(draft))}</code></p>
-    <small>Учебная мини-проверка в браузере. Vitest запускается отдельно через npm test.</small>
+    <small>Учебная мини-проверка в браузере. Jest запускается отдельно через npm test.</small>
   </section>;
 }
 function ComponentLab() {

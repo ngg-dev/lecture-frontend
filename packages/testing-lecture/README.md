@@ -4,17 +4,17 @@
 
 Продолжение React/TypeScript-курса. Сохраняем книжный магазин: «Солярис», цена, форма, корзина. Сначала работающий проект, затем конкретная регрессия, затем минимальный инструмент, который её обнаруживает. Никакого списка библиотек до появления задачи.
 
-**Результат:** студент различает unit, компонентную/интеграционную и браузерную проверку; пишет Vitest-тест правила, Testing Library-тест взаимодействия и Playwright-сценарий; умеет показать красный тест и объяснить границу mock.
+**Результат:** студент различает unit, компонентную/интеграционную и браузерную проверку; пишет Jest-тест правила, Testing Library-тест взаимодействия и Playwright-сценарий; умеет показать красный тест и объяснить границу mock.
 
 ## Маршрут
 
 - Есть магазин → пустая цена стала нулём → типы не спасли → ручной чек-лист перестал масштабироваться.
-- Unit: контракт, Vitest, Arrange–Act–Assert, красный тест, исправление, границы, matcher-ы. Живое сравнение ошибочной и правильной функции.
+- Unit: контракт, Jest, Arrange–Act–Assert, красный тест, исправление, границы, matcher-ы. Живое сравнение ошибочной и правильной функции.
 - Компонент: функция зелёная, кнопка не работает → jsdom, Testing Library, user-event, доступные запросы, async, отказ и повтор.
 - Браузер: компоненты отдельно зелёные, связи сломаны → Playwright, критический путь, auto-wait, контролируемый API, изоляция, trace.
 - Стратегия: выбор уровня по риску, ограничения coverage, практика, маршрут CI и самопроверка.
 
-**39 слайдов, 75 минут рассказа + 20 минут практики.** Числа вычисляются из `src/content.js` и видны на обложке; план преподавателя — `public/docs/speaker-guide.md`.
+**40 слайдов, 77 минут рассказа + 20 минут практики.** Числа вычисляются из `src/content.js` и видны на обложке; план преподавателя — `public/docs/speaker-guide.md`.
 
 Предпосылки: функции, массивы, async/await, React props/state/events, базовый TypeScript; см. `public/docs/prior-knowledge.md`. Новые инструменты вводятся с нуля. Работа с реальным backend, БД, платёжным сервисом и проценты покрытия не требуются.
 
@@ -34,10 +34,31 @@ npm run dev
 Dev: <http://127.0.0.1:4192/>. Магазин: <http://127.0.0.1:4192/shop/>. `npm run dev` — разработка с обновлением; Pages публикует именно сборку, а не dev-сервер.
 
 ```sh
-npm test              # Vitest, один запуск
-npm run test:watch    # Vitest, watch
-npm run check        # tsc + Vitest + проверки маршрута и ссылок
+npm test              # Jest, один запуск
+npm run test:watch    # Jest, watch
+npm run check        # tsc + Jest + проверки маршрута и ссылок
 ```
+
+## Как Jest исполняет TS/TSX
+
+Jest для unit и компонентных тестов, Playwright для e2e — выбранный стек лекции. Testing Library помогает проверять React внутри Jest, не заменяет runner.
+
+Сборка Vite не передаёт свою конфигурацию в Jest. Если добавляете тесты в собственный проект, установите:
+
+```sh
+npm install -D jest @jest/globals @types/jest jest-environment-jsdom \
+  babel-jest @babel/core@7 @babel/preset-env@7 \
+  @babel/preset-react@7 @babel/preset-typescript@7
+npm install -D @testing-library/react @testing-library/dom \
+  @testing-library/user-event @testing-library/jest-dom
+```
+
+- `jest.config.cjs`: `testMatch` ограничивает Jest папкой `tests/`, `transform` передаёт TS/TSX в `babel-jest`; `testEnvironment: 'jsdom'` даёт DOM; `setupFilesAfterEnv` подключает matcher-ы и cleanup.
+- `babel.config.cjs`: preset-env преобразует модули для текущего Node, preset-react — JSX, preset-typescript убирает аннотации. **Babel не проверяет типы**: для этого `tsc --noEmit` в `npm run check`.
+- `.cjs` позволяет использовать `module.exports` при `type: module`. Тесты импортируют `test`, `expect`, `jest` из `@jest/globals`; setup использует `@testing-library/jest-dom/jest-globals`.
+- `jest --runInBand` — один запуск последовательно; `jest --watchAll` — наблюдение за изменениями. Команды Playwright не менялись.
+
+Для готового пакета повторять установку отдельных библиотек не нужно: **`npm ci`** использует зафиксированные версии.
 
 ## Проверка собранного сайта под префиксом Pages
 
@@ -83,7 +104,7 @@ LECTURE_BASE_URL=http://127.0.0.1:4192/ npm run test:e2e
 - `shop/` — собранное React-приложение с локальной корзиной и ценой. Reload сбрасывает данные.
 - `e2e/shop.spec.ts` — браузерный путь корзины; отдельно отказ/повтор API через `page.route`.
 - `e2e/deck.spec.ts` — реальное управление декой, hash/reload, демо, ввод и узкий экран.
-- `#unit-lab` — учебная мини-проверка реальных вызовов функции **в браузере, не Vitest**. Никаких вымышленных отчётов runner-а.
+- `#unit-lab` — учебная мини-проверка реальных вызовов функции **в браузере, не Jest**. Никаких вымышленных отчётов runner-а.
 - `shop/?mode=api` используется тестом с перехватом GET/PATCH. На Pages нет API: самостоятельно этот режим показывает ошибку загрузки. Обычный `/shop/` работает автономно.
 
 **Граница:** браузер + mock API — проверка фронтенда, не полного backend e2e. Полный e2e требует отдельного тестового сервера, изолированных данных и БД. Не направляйте эти тесты на production.

@@ -1,10 +1,10 @@
-import { expect, test, vi } from 'vitest';
+import { expect, test, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PriceEditor } from '../src/shop/PriceEditor';
 
 test('пользователь сохраняет новую цену числом', async () => {
-  const onSave = vi.fn().mockResolvedValue(undefined);
+  const onSave = jest.fn<(price: number) => Promise<void>>().mockResolvedValue(undefined);
   const user = userEvent.setup();
   render(<PriceEditor price={690} onSave={onSave} />);
   await user.clear(screen.getByRole('textbox', { name: 'Новая цена' }));
@@ -15,7 +15,7 @@ test('пользователь сохраняет новую цену число
 });
 
 test('пустая цена не отправляется, пользователь видит ошибку', async () => {
-  const onSave = vi.fn();
+  const onSave = jest.fn<(price: number) => Promise<void>>();
   const user = userEvent.setup();
   render(<PriceEditor price={690} onSave={onSave} />);
   await user.clear(screen.getByRole('textbox', { name: 'Новая цена' }));
@@ -25,7 +25,7 @@ test('пустая цена не отправляется, пользовате�
 });
 
 test('ошибка сохранения видна; повторная попытка успешна', async () => {
-  const onSave = vi.fn().mockRejectedValueOnce(new Error('HTTP 500')).mockResolvedValue(undefined);
+  const onSave = jest.fn<(price: number) => Promise<void>>().mockRejectedValueOnce(new Error('HTTP 500')).mockResolvedValue(undefined);
   const user = userEvent.setup();
   render(<PriceEditor price={690} onSave={onSave} />);
   await user.click(screen.getByRole('button', { name: 'Сохранить' }));
@@ -36,7 +36,7 @@ test('ошибка сохранения видна; повторная попы�
 
 test('пока запрос не завершён, повторная отправка недоступна', async () => {
   let finish!: () => void;
-  const onSave = vi.fn(() => new Promise<void>(resolve => { finish = resolve; }));
+  const onSave = jest.fn(() => new Promise<void>(resolve => { finish = resolve; }));
   const user = userEvent.setup();
   render(<PriceEditor price={690} onSave={onSave} />);
   await user.click(screen.getByRole('button', { name: 'Сохранить' }));

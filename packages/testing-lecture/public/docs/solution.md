@@ -27,7 +27,7 @@ export function parsePrice(draft: string): number | null {
 - rejected Promise показывает ошибку; повтор успешен;
 - пока Promise не завершён, повторная отправка отключена.
 
-`tests/setup.ts` подключает jest-dom и `afterEach(cleanup)`. `getByRole` ищет существующий элемент; `findByRole` ждёт его появления. Никакого доступа к внутреннему state.
+Jest запускает unit и компонентные тесты через `babel-jest`: конфигурация в `jest.config.cjs` и `babel.config.cjs`. Babel преобразует TS/TSX, а `tsc --noEmit` отдельно проверяет типы. Тесты импортируют API из `@jest/globals`; `tests/setup.ts` подключает `@testing-library/jest-dom/jest-globals` и `afterEach(cleanup)`. `getByRole` ищет существующий элемент; `findByRole` ждёт его появления. Никакого доступа к внутреннему state.
 
 ## 3. Браузер
 

@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 const model = await readFile(new URL('../src/shop/model.ts', import.meta.url), 'utf8');
 const source = (await readFile(new URL('../src/content.js', import.meta.url), 'utf8'))
-  .replace(/^import modelSource.*$/m, `const modelSource = ${JSON.stringify(model)};`);
+  .replace(/^import modelSource.*$/m, `const modelSource = ${JSON.stringify(model)};`)
+  .replace(/^import babelConfig.*$/m, `const babelConfig = ${JSON.stringify(await readFile(new URL('../babel.config.cjs', import.meta.url), 'utf8'))};`);
 const { slides, chapters, totalMinutes } = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
 
 test('маршрут начинается с магазина и проблемы, затем вводит проверки', () => {
@@ -21,6 +22,21 @@ test('маршрут начинается с магазина и проблем�
     for (const field of ['title', 'lead', 'takeaway', 'notes']) assert(slide[field]?.trim(), `${slide.id}: ${field}`);
     assert(slide.minutes > 0);
   }
+});
+
+test('лекция использует Jest для unit/компонентов и отдельный Playwright для e2e', async () => {
+  const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
+  assert(pkg.devDependencies.jest, 'Jest должен быть установлен');
+  assert(!pkg.devDependencies.vitest, 'Предыдущий runner удалён');
+  assert.match(pkg.scripts.test, /^jest\b/);
+  assert.equal(pkg.scripts['test:e2e'], 'playwright test');
+  const { default: config } = await import('../jest.config.cjs');
+  assert(config.testMatch.every(pattern => pattern.includes('/tests/')), 'Jest не захватывает e2e');
+  assert.equal(config.testEnvironment, 'jsdom');
+  assert(slides.find(slide => slide.id === 'aaa').code.includes('@jest/globals'));
+  assert(slides.find(slide => slide.id === 'component-test').code.includes('jest.fn'));
+  assert(slides.some(slide => slide.id === 'jest-transform'));
+  assert(!/vitest|\bvi\.fn\b/i.test(source), 'Примеры и объяснения полностью переведены');
 });
 
 test('учебные ссылки, практика, решение и первичные источники существуют', async () => {

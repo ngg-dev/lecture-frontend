@@ -1,4 +1,5 @@
 import modelSource from './shop/model.ts?raw';
+import babelConfig from '../babel.config.cjs?raw';
 
 export const chapters = [
   { id: 'problem', title: 'Есть магазин. Есть риск.' },
@@ -40,18 +41,24 @@ export const slides = [
   s('boundaries', 'problem', 'Разные ошибки требуют разных границ', 'Начнём с самой маленькой проверки, которая обнаруживает нужный риск.', {
     cards: [['Unit', 'Функция: «пустой ввод → null». Без React и браузера.'], ['Компонентная / интеграционная', 'React + DOM: ввели цену, нажали кнопку, увидели сообщение.'], ['Браузерный сценарий', 'Открыли собранное приложение, добавили книгу, проверили итог.']],
     takeaway: 'Уровень задаёт граница проверки, а не имя библиотеки.',
-    notes: 'Термин unit не имеет единственного размера. Сегодня чистая функция — unit; React с DOM и user-event называем компонентной/интеграционной проверкой. Vitest умеет не только unit, а Playwright не превращает любой тест в полный e2e.'
+    notes: 'Термин unit не имеет единственного размера. Сегодня чистая функция — unit; React с DOM и user-event называем компонентной/интеграционной проверкой. Jest умеет не только unit, а Playwright не превращает любой тест в полный e2e.'
   }),
   s('tool-map', 'unit', 'Как запустить проверку автоматически?', 'Нужны запускатель, сравнение результата и понятный отчёт о падении.', {
-    cards: [['Vitest', 'Находит тесты, запускает их, даёт test, expect и vi.'], ['Testing Library', 'Рендерит React и ищет элементы по доступным именам. Это не runner.'], ['Playwright', 'Управляет настоящим браузером и проверяет наблюдаемый результат.']],
-    takeaway: 'Сначала Vitest для функции. Остальные инструменты появятся по мере роста задачи.',
-    notes: 'Jest — распространённая альтернатива, здесь выбран Vitest для существующего Vite/React-окружения. Не тратить время на обзор всех фреймворков.'
+    cards: [['Jest', 'Находит тесты, запускает их, даёт test, expect и jest.fn.'], ['Testing Library', 'Рендерит React и ищет элементы по доступным именам. Это не runner.'], ['Playwright', 'Управляет настоящим браузером и проверяет наблюдаемый результат.']],
+    takeaway: 'Сначала Jest для функции. Остальные инструменты появятся по мере роста задачи.',
+    notes: 'По заданию используем Jest для unit и компонентных проверок, Playwright для e2e. Jest запускается отдельно от Vite и имеет собственную конфигурацию. Testing Library остаётся помощником для React, не отдельным runner-ом.'
   }),
-  s('unit-setup', 'unit', 'Добавляем Vitest в существующий проект', 'Не создаём магазин заново. Добавляем инструмент рядом с кодом.', {
-    code: 'npm install -D vitest\n\n// package.json → scripts\n"test": "vitest run",\n"test:watch": "vitest"\n\n// Затем:\nnpm test',
-    bullets: ['Файлы: parsePrice.test.ts или parsePrice.spec.ts.', 'vitest run — один запуск с exit code; vitest — режим наблюдения.', 'В готовом пакете версии уже зафиксированы: npm ci.'],
+  s('unit-setup', 'unit', 'Добавляем Jest в существующий проект', 'Не создаём магазин заново. Добавляем инструмент рядом с кодом.', {
+    code: 'npm install -D jest @jest/globals\n\n// package.json → scripts\n"test": "jest --runInBand",\n"test:watch": "jest --watchAll"\n\n// Затем:\nnpm test',
+    bullets: ['В нашем конфиге: tests/model.test.ts и tests/*.test.tsx.', 'jest — один запуск; --watchAll — наблюдение; --runInBand — без параллельных workers.', 'В готовом пакете версии уже зафиксированы: npm ci.'],
     takeaway: 'Для этого пакета нужны Node.js 22.12+ и npm; lockfile хранится в Git.',
-    notes: 'Фрагмент scripts — часть JSON, не shell-команда. Показать готовый package.json. .test и .spec — соглашение обнаружения; include в нашем конфиге отделяет Vitest от e2e.'
+    notes: 'Фрагмент scripts — часть JSON, не shell-команда. Показать готовый package.json. testMatch в jest.config.cjs ограничивает запуск папкой tests: Playwright-файлы из e2e не подхватываются. TS/TSX на следующем слайде требует отдельного преобразования.'
+  }),
+  s('jest-transform', 'unit', 'Jest должен уметь читать TS и JSX', 'Сборка Vite не настраивает Jest автоматически. Добавим преобразование перед тестом.', {
+    file: 'babel.config.cjs', code: babelConfig.trim(),
+    bullets: ['babel-jest запускает Babel для TS/TSX и import/export.', 'preset-typescript убирает типы; preset-react преобразует JSX.', 'Типы проверяет tsc --noEmit: Babel этого не делает.'],
+    takeaway: 'Jest исполняет преобразованный код. Проверка типов остаётся отдельным шагом.',
+    notes: 'Полные зависимости и оба конфига в README пакета. jest.config.cjs задаёт transform для JS/TS/JSX/TSX через babel-jest. preset-env нацелен на текущий Node и CommonJS. Суффикс .cjs сохраняет module.exports при type: module; Vite для сайта остаётся отдельно. В готовом проекте достаточно npm ci.'
   }),
   s('contract', 'unit', 'Сначала определим, что считается правильным', 'Иначе тест лишь повторит случайное поведение реализации.', {
     bullets: ['Непустая строка с конечным неотрицательным числом → number.', 'Пустота, пробелы, отрицательное число, NaN, Infinity → null.', '«0» → 0: бесплатная книга допустима; null означает отказ.'],
@@ -59,7 +66,7 @@ export const slides = [
     notes: 'Десятичный разделитель в примере — точка; используем поведение Number, а не разрабатываем денежный парсер для production. Не делать if (!price): он запрещает допустимый ноль.'
   }),
   s('aaa', 'unit', 'Один тест — три части', 'Arrange: подготовили. Act: выполнили. Assert: сравнили с обещанием.', {
-    code: "import { expect, test } from 'vitest';\nimport { parsePrice } from '../src/shop/model';\n\ntest('пустая цена отклоняется', () => {\n  const draft = '';                    // Arrange\n  const result = parsePrice(draft);     // Act\n  expect(result).toBeNull();            // Assert\n});",
+    code: "import { expect, test } from '@jest/globals';\nimport { parsePrice } from '../src/shop/model';\n\ntest('пустая цена отклоняется', () => {\n  const draft = '';                    // Arrange\n  const result = parsePrice(draft);     // Act\n  expect(result).toBeNull();            // Assert\n});",
     takeaway: 'Имя теста описывает поведение. Ожидаемое значение берём из правила, не из функции.',
     notes: 'Объяснить callback test и expect. В реальных tests/model.test.ts есть и числовой happy path. Здесь выбран тест, ловящий наблюдённую ошибку.'
   }),
@@ -87,7 +94,7 @@ export const slides = [
   }),
   s('unit-lab', 'unit', 'Поймайте регрессию прямо на слайде', 'Сравните ошибочную и исправленную реализацию на одних данных.', {
     demo: 'unit', minutes: 3,
-    takeaway: 'Это реальные вызовы функции в браузере, но не запуск Vitest. Полный runner: npm test.',
+    takeaway: 'Это реальные вызовы функции в браузере, но не запуск Jest. Полный runner: npm test.',
     notes: 'Запустить ошибочную версию: пустота и пробелы ошибочно дают 0, минус допускается. Переключить на исправленную и повторить. Ввести собственное значение. Самодельная мини-проверка нужна только для объяснения, не как замена фреймворка.'
   }),
   s('unit-limit', 'component', 'Функция зелёная. Кнопка всё ещё может не работать.', 'parsePrice проверена, но React-форма может передавать не тот аргумент.', {
@@ -96,16 +103,16 @@ export const slides = [
     takeaway: 'Проблема выросла до связи DOM → обработчик → результат. Расширяем границу теста.',
     notes: 'Первый пример TS тоже поймает при корректном контракте; второй может спокойно скомпилироваться. Тест компонента проверяет подключение поведения, не заменяя TS.'
   }),
-  s('component-setup', 'component', 'React-компоненту нужен DOM', 'Vitest запускает тест. jsdom предоставляет DOM. Testing Library рендерит React.', {
-    code: 'npm install -D @testing-library/react @testing-library/dom \\\n  @testing-library/user-event @testing-library/jest-dom jsdom\n\n// vite.config.js → test\nenvironment: "jsdom",\nsetupFiles: ["./tests/setup.ts"]',
-    bullets: ['setup.ts: import "@testing-library/jest-dom/vitest".', 'После теста удаляем DOM: afterEach(cleanup).', 'jsdom не является настоящим браузером и не проверяет layout.'],
+  s('component-setup', 'component', 'React-компоненту нужен DOM', 'Jest запускает тест. jsdom предоставляет DOM. Testing Library рендерит React.', {
+    code: 'npm install -D @testing-library/react @testing-library/dom \\\n  @testing-library/user-event @testing-library/jest-dom \\\n  jest-environment-jsdom\n\n// jest.config.cjs → module.exports\ntestEnvironment: "jsdom",\nsetupFilesAfterEnv: ["<rootDir>/tests/setup.ts"]',
+    bullets: ['setup.ts: import "@testing-library/jest-dom/jest-globals".', 'После теста удаляем DOM: afterEach(cleanup).', 'jsdom не является настоящим браузером и не проверяет layout.'],
     takeaway: 'Рендерим только нужный компонент, а не запускаем весь сайт.',
     notes: 'Показать tests/setup.ts в пакете. Testing Library поставляет запросы, user-event — действия, jest-dom — matcher-ы для DOM. Не приписывать user-event браузерный layout.'
   }),
   s('component-test', 'component', 'Кликаем так, как кликает пользователь', 'Находим поле по роли и имени, вводим цену, сохраняем.', {
-    code: "const user = userEvent.setup();\nconst onSave = vi.fn().mockResolvedValue(undefined);\nrender(<PriceEditor price={690} onSave={onSave} />);\n\nconst input = screen.getByRole('textbox', { name: 'Новая цена' });\nawait user.clear(input);\nawait user.type(input, '790');\nawait user.click(screen.getByRole('button', { name: 'Сохранить' }));\n\nexpect(onSave).toHaveBeenCalledWith(790);\nexpect(await screen.findByRole('status'))\n  .toHaveTextContent('Цена сохранена');",
+    code: "const user = userEvent.setup();\nconst onSave = jest.fn<(price: number) => Promise<void>>().mockResolvedValue(undefined);\nrender(<PriceEditor price={690} onSave={onSave} />);\n\nconst input = screen.getByRole('textbox', { name: 'Новая цена' });\nawait user.clear(input);\nawait user.type(input, '790');\nawait user.click(screen.getByRole('button', { name: 'Сохранить' }));\n\nexpect(onSave).toHaveBeenCalledWith(790);\nexpect(await screen.findByRole('status'))\n  .toHaveTextContent('Цена сохранена');",
     takeaway: 'Здесь проверяем ввод → submit → callback с числом и сообщение пользователю.',
-    notes: 'Полные импорты и запускаемый вариант — tests/PriceEditor.test.tsx. vi.fn заменяет внешнюю границу onSave, не сам компонент и не parsePrice. async onSave требует mockResolvedValue, потому что реальная форма ждёт Promise.'
+    notes: 'Полные импорты и запускаемый вариант — tests/PriceEditor.test.tsx. jest.fn заменяет внешнюю границу onSave, не сам компонент и не parsePrice. async onSave требует mockResolvedValue, потому что реальная форма ждёт Promise.'
   }),
   s('queries', 'component', 'Как выбрать правильный элемент?', 'Семантика HTML делает и интерфейс, и тест устойчивее.', {
     code: "screen.getByRole('button', { name: 'Сохранить' });\nscreen.getByRole('textbox', { name: 'Новая цена' });\n\n// Хрупко:\ndocument.querySelector('.panel > div:nth-child(2) button');",
@@ -120,8 +127,8 @@ export const slides = [
     notes: 'Не писать просто await getByRole — это синхронный запрос и ожидания не добавит. Для отсутствия подойдёт queryBy, для исчезновения — waitForElementToBeRemoved или waitFor.'
   }),
   s('mocks', 'component', 'Как проверить ошибку, не ломая настоящий сервер?', 'Управляем одной внешней зависимостью, остальной код исполняется реально.', {
-    code: "const onSave = vi.fn()\n  .mockRejectedValueOnce(new Error('HTTP 500'))\n  .mockResolvedValue(undefined);\n\nrender(<PriceEditor price={690} onSave={onSave} />);\n// Первый submit → alert, второй → status.",
-    bullets: ['Mock — контролируемая замена границы системы.', 'vi.fn позволяет наблюдать аргументы и задавать результат.', 'Если замокать parsePrice, проверка формы не увидит ошибку парсинга.'],
+    code: "const onSave = jest.fn<(price: number) => Promise<void>>()\n  .mockRejectedValueOnce(new Error('HTTP 500'))\n  .mockResolvedValue(undefined);\n\nrender(<PriceEditor price={690} onSave={onSave} />);\n// Первый submit → alert, второй → status.",
+    bullets: ['Mock — контролируемая замена границы системы.', 'jest.fn позволяет наблюдать аргументы и задавать результат.', 'Если замокать parsePrice, проверка формы не увидит ошибку парсинга.'],
     takeaway: 'Мокаем то, чем тест не управляет напрямую, а не всё подряд.',
     notes: 'В наших тестах ошибку сохранения проверяет настоящий PriceEditor с настоящим parsePrice. Это не проверка backend. Каждый тест создаёт новый onSave: история вызовов не протекает между тестами.'
   }),
@@ -219,7 +226,7 @@ export const slides = [
     links: [
       ['README и команды', '../../packages/testing-lecture/README.md'],
       ['Практика', './docs/practice.md'], ['Эталон после попытки', './docs/solution.md'],
-      ['Vitest', 'https://vitest.dev/guide/'], ['Testing Library', 'https://testing-library.com/docs/react-testing-library/intro/'],
+      ['Jest', 'https://jestjs.io/docs/getting-started'], ['Testing Library', 'https://testing-library.com/docs/react-testing-library/intro/'],
       ['Playwright', 'https://playwright.dev/docs/best-practices'], ['Источники и границы', './docs/sources.md'],
     ],
     takeaway: 'Исходники: packages/testing-lecture/. Статическая сборка: lectures/testing-lecture/.',
