@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { chapters, slides, totalMinutes } from './content.js';
-import { parsePrice } from './shop/model';
-import { PriceEditor } from './shop/PriceEditor';
+import { chapters, slides } from './content.js';
 import './styles.css';
 
 const pad = value => String(value).padStart(2, '0');
 function readSlide() {
   let id;
   try { id = decodeURIComponent(location.hash.slice(1)); } catch { return 0; }
+  id = ({ green: 'red', 'component-test': 'first-e2e', 'false-success': 'component-lab' })[id] || id;
   const index = slides.findIndex(slide => slide.id === id);
   return index < 0 ? 0 : index;
 }
@@ -21,31 +20,15 @@ function highlight(line) {
 function Code({ text, file }) {
   return <figure className="code-window"><figcaption>{file || 'Пример · ключевой фрагмент'}</figcaption><pre tabIndex="0"><code>{text.split('\n').map((line, i) => <span className="code-line" data-line={i + 1} key={i}>{highlight(line) || ' '}</span>)}</code></pre></figure>;
 }
-function UnitLab() {
-  const [version, setVersion] = useState('buggy');
-  const [draft, setDraft] = useState('');
-  const [rows, setRows] = useState(null);
-  const fn = version === 'fixed' ? parsePrice : value => Number(value);
-  function run() {
-    setRows([['790', 790], ['', null], ['   ', null], ['-1', null], ['0', 0]].map(([input, expected]) => {
-      const actual = fn(input);
-      return { input, expected, actual, passed: Object.is(actual, expected) };
-    }));
-  }
-  return <section className="demo-slot" aria-label="Живые проверки цены">
-    <div className="lab-tools"><label>Реализация<select aria-label="Реализация" value={version} onChange={e => { setVersion(e.target.value); setRows(null); }}><option value="buggy">Ошибка: Number(draft)</option><option value="fixed">Исправлено: parsePrice</option></select></label><button onClick={run}>Запустить проверки</button></div>
-    <div role="status" aria-live="polite">{!rows ? 'Проверки ещё не запускались.' : <><strong className={rows.every(row => row.passed) ? 'pass' : 'fail'}>{rows.every(row => row.passed) ? 'Все проверки пройдены' : 'FAIL: правило нарушено'}</strong><ul className="results">{rows.map(row => <li key={row.input} className={row.passed ? 'pass' : 'fail'}>{row.passed ? 'PASS' : 'FAIL'} · {JSON.stringify(row.input)} → {String(row.actual)}; ожидаем {String(row.expected)}</li>)}</ul></>}</div>
-    <label>Проверить свою цену<input aria-label="Проверить свою цену" value={draft} onChange={e => setDraft(e.target.value)} /></label><p>Результат: <code>{String(fn(draft))}</code></p>
-    <small>Учебная мини-проверка в браузере. Jest запускается отдельно через npm test.</small>
-  </section>;
+function Bullets({ items }) {
+  return items && <ul className="bullet-list">{items.map(item => <li key={item}>{item}</li>)}</ul>;
 }
-function ComponentLab() {
-  const [price, setPrice] = useState(690);
-  const [fail, setFail] = useState(false);
-  return <section className="demo-slot" aria-label="Редактор цены"><div className="lab-tools"><p className="demo-price">Цена книги: {price} ₽</p><label className="checkbox"><input type="checkbox" checked={fail} onChange={e => setFail(e.target.checked)} /> Следующее сохранение завершится отказом</label></div><PriceEditor price={price} onSave={async value => {
-    if (fail) { setFail(false); throw new Error('Контролируемый отказ'); }
-    setPrice(value);
-  }} /><small>Реальный React-компонент. Зависимость onSave локальная; настоящего API на этом слайде нет.</small></section>;
+function Screenshot({ image }) {
+  return <figure className="example-screenshot">
+    <a className="screenshot-link" href={image.src} target="_blank" rel="noreferrer" aria-label={`Открыть изображение: ${image.alt}`}>
+      <img src={image.src} alt={image.alt} />
+    </a>
+  </figure>;
 }
 function App() {
   const [index, setIndex] = useState(readSlide);
@@ -55,6 +38,7 @@ function App() {
   const article = useRef(null);
   const lastFocus = useRef(null);
   const slide = slides[index];
+  const titleOnly = slide.kind === 'title-only';
   const chapter = chapters.find(item => item.id === slide.chapter);
   const go = next => setIndex(Math.max(0, Math.min(slides.length - 1, next)));
   function openOverview() { lastFocus.current = document.activeElement; dialog.current.showModal(); dialog.current.querySelector('[aria-current="true"]')?.focus(); }
@@ -76,7 +60,7 @@ function App() {
     };
     const key = event => {
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || dialog.current.open) return;
-      if (event.target instanceof Element && event.target.closest('input,textarea,select,button,a,summary,pre,[contenteditable],.demo-slot')) return;
+      if (event.target instanceof Element && event.target.closest('input,textarea,select,button,a,summary,pre,[contenteditable],.comparison-wrap')) return;
       const actions = { ArrowRight: () => go(index + 1), ArrowLeft: () => go(index - 1), PageDown: () => go(index + 1), PageUp: () => go(index - 1), ' ': () => go(index + (event.shiftKey ? -1 : 1)), Home: () => go(0), End: () => go(slides.length - 1), o: openOverview, 'щ': openOverview, f: fullscreen, n: () => setShowNotes(value => !value) };
       const action = actions[event.key] || actions[event.key.toLowerCase()];
       if (action) { event.preventDefault(); action(); }
@@ -87,15 +71,23 @@ function App() {
   }, [index]);
   return <><a className="skip-link" href="#main-slide" onClick={e => { e.preventDefault(); article.current.focus(); }}>Перейти к слайду</a><div className="lecture-shell">
     <header className="topbar"><a className="brand" href="#cover" onClick={e => { e.preventDefault(); go(0); }}><span className="brand-mark">✓</span><span>FRONTEND / TESTING</span></a><div className="toolbar"><button onClick={openOverview} aria-label="Открыть оглавление">☰ <span>Оглавление</span></button><button onClick={() => setShowNotes(value => !value)} aria-label="Заметки преподавателя" aria-pressed={showNotes}>N</button><button onClick={fullscreen} aria-label="Полноэкранный режим" hidden={!document.documentElement.requestFullscreen}>⛶</button></div></header>
-    <main className="stage" ref={stage}><article className={`slide ${slide.kind === 'cover' ? 'cover' : ''}`} data-slide-id={slide.id} tabIndex="-1" id="main-slide" ref={article} aria-labelledby="slide-title">
-      <p className="kicker">{chapter.title} <span>{slide.kind === 'cover' ? `${slides.length} слайдов / ${totalMinutes} минут + практика` : `${slide.minutes} мин`}</span></p><h1 id="slide-title">{slide.title}</h1><p className="slide-lead">{slide.lead}</p>
+    <main className="stage" ref={stage}><article className={slide.kind ? `slide ${slide.kind}` : 'slide'} data-slide-id={slide.id} tabIndex="-1" id="main-slide" ref={article} aria-labelledby="slide-title">
+      {!titleOnly && <p className="kicker">{chapter.title}</p>}
+      <h1 id="slide-title">{slide.title}</h1>
+      {!titleOnly && <><p className="slide-lead">{slide.lead}</p>
       <div className="slide-body" key={slide.id}>
         {slide.cards && <div className="cards">{slide.cards.map(([title, text], i) => <section className="concept-card" key={title}><span className="card-number">{pad(i + 1)}</span><h2>{title}</h2><p>{text}</p></section>)}</div>}
-        <div className={slide.code && slide.bullets ? 'code-and-notes' : ''}>{slide.code && <Code text={slide.code} file={slide.file} />}{slide.bullets && <ul className="bullet-list">{slide.bullets.map(item => <li key={item}>{item}</li>)}</ul>}</div>
-        {slide.demo === 'unit' && <UnitLab />}{slide.demo === 'component' && <ComponentLab />}
-        {slide.link && <a className="primary-button" href={slide.link.href} target="_blank" rel="noreferrer">{slide.link.text} ↗</a>}
+        {slide.examplesSideBySide && <div className="screenshot-pair">
+          {slide.examples.map(image => <Screenshot key={image.src} image={image} />)}
+        </div>}
+        {slide.examples && !slide.examplesSideBySide ?
+          <div className={`image-and-notes ${slide.code ? 'image-and-code' : ''}`}><Screenshot image={slide.examples[0]} /><div>{slide.code && <Code text={slide.code} file={slide.file} />}<Bullets items={slide.bullets} />{slide.link && <a className="primary-button" href={slide.link.href} target="_blank" rel="noreferrer">{slide.link.text} ↗</a>}</div></div> :
+          (slide.code || slide.bullets) && <div className={slide.code && slide.bullets ? 'code-and-notes' : ''}>{slide.code && <Code text={slide.code} file={slide.file} />}<Bullets items={slide.bullets} /></div>}
+        {slide.table && <div className="comparison-wrap" tabIndex="0" role="region" aria-label={slide.table.label}><table className="comparison-table" aria-label={slide.table.label}><thead><tr>{slide.table.headers.map(header => <th scope="col" key={header}>{header}</th>)}</tr></thead><tbody>{slide.table.rows.map(([input, ...results]) => <tr key={input}><th scope="row">{input}</th>{results.map((result, i) => <td key={i}>{result}</td>)}</tr>)}</tbody></table></div>}
+        {slide.link && (!slide.examples || slide.examplesSideBySide) && <a className="primary-button" href={slide.link.href} target="_blank" rel="noreferrer">{slide.link.text} ↗</a>}
         {slide.links && <ul className="resource-list">{slide.links.map(([text, href]) => <li key={href}><a href={href} target="_blank" rel="noreferrer">{text} ↗</a></li>)}</ul>}
-      </div><p className="takeaway">{slide.takeaway}</p>{showNotes && <aside className="speaker-notes"><b>Преподавателю</b><p>{slide.notes}</p></aside>}
+      </div><p className="takeaway">{slide.takeaway}</p></>}
+      {showNotes && slide.notes && <aside className="speaker-notes"><b>Преподавателю</b><p>{slide.notes}</p></aside>}
     </article></main>
     <footer className="bottom-bar"><span className="chapter-label">{chapter.title}</span><div className="slide-meter"><b>{pad(index + 1)}</b> / {pad(slides.length)} <small>← → · пробел</small></div><nav aria-label="Навигация презентации"><button onClick={() => go(index - 1)} disabled={index === 0} aria-label="Предыдущий слайд">←</button><button onClick={() => go(index + 1)} disabled={index === slides.length - 1} aria-label="Следующий слайд">→</button></nav></footer><div className="progress-track" role="progressbar" aria-label="Прогресс лекции" aria-valuemin="1" aria-valuemax={slides.length} aria-valuenow={index + 1}><div style={{ width: `${(index + 1) / slides.length * 100}%` }} /></div>
     </div><div className="visually-hidden" aria-live="polite">Слайд {index + 1} из {slides.length}: {slide.title}</div>

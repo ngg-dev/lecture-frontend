@@ -1,80 +1,93 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
-const model = await readFile(new URL('../src/shop/model.ts', import.meta.url), 'utf8');
-const source = (await readFile(new URL('../src/content.js', import.meta.url), 'utf8'))
-  .replace(/^import modelSource.*$/m, `const modelSource = ${JSON.stringify(model)};`);
-const { slides, chapters, totalMinutes } = await import('data:text/javascript;base64,' + Buffer.from(source).toString('base64'));
+import { slides, chapters, totalMinutes } from '../src/content.js';
 
-test('маршрут начинается с магазина и проблемы, затем вводит проверки', () => {
+test('подробная лекция сохраняет маршрут и укладывается в 70 минут', () => {
   const ids = slides.map(slide => slide.id);
+  assert.equal(ids.length, 47);
   assert.equal(ids.length, new Set(ids).size);
   assert.deepEqual(ids.slice(0, 3), ['cover', 'working-shop', 'regression']);
-  for (const [a, b] of [['regression', 'unit-setup'], ['aaa', 'red'], ['red', 'green'], ['unit-limit', 'component-test'], ['component-limit', 'first-e2e'], ['practice-task', 'recap']]) {
-    assert(ids.indexOf(a) >= 0 && ids.indexOf(a) < ids.indexOf(b), `${a} должно идти до ${b}`);
-  }
+  assert.deepEqual(ids.slice(5, 8), ['incident-cloudflare', 'everyday-case', 'ordinary-risks']);
   assert.equal(ids.at(-1), 'recap');
-  assert(totalMinutes >= 60 && totalMinutes <= 90);
-  assert(slides.find(slide => slide.id === 'green').code.includes('Number.isFinite'));
+  assert.equal(totalMinutes, 70);
+  for (const [before, after] of [
+    ['boundaries', 'tool-choice'], ['tool-choice', 'tool-map'], ['aaa-methodology', 'aaa'],
+    ['red', 'cases'], ['unit-lab', 'unit-lab-fixed'], ['unit-limit', 'e2e-intro'], ['e2e-intro', 'double-submit'],
+    ['double-submit', 'async'], ['async', 'mocks'], ['component-lab', 'component-lab-retry'],
+    ['first-e2e', 'e2e-boundary'],
+    ['answers', 'ai-testing'], ['ai-testing', 'ai-prompt'], ['ai-prompt', 'ai-review'],
+  ]) assert.equal(ids[ids.indexOf(before) + 1], after, `${before} → ${after}`);
+  assert(!ids.includes('green') && !ids.includes('component-test'));
   for (const slide of slides) {
+    assert(slide.minutes > 0, `${slide.id}: положительное время`);
     assert(chapters.some(chapter => chapter.id === slide.chapter));
-    for (const field of ['title', 'lead', 'takeaway', 'notes']) assert(slide[field]?.trim(), `${slide.id}: ${field}`);
-    assert(slide.minutes > 0);
+    assert(slide.title?.trim(), `${slide.id}: title`);
+    if (slide.kind !== 'title-only') {
+      for (const field of ['lead', 'takeaway', 'notes']) assert(slide[field]?.trim(), `${slide.id}: ${field}`);
+    }
+    assert(!slide.demo, `${slide.id}: пример читается без интерактивного запуска`);
   }
 });
 
-test('лекция использует Jest для unit/компонентов и отдельный Playwright для e2e', async () => {
+test('Jest проверяет правило, а браузерные сценарии описаны без кода', async () => {
   const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
-  assert(pkg.devDependencies.jest, 'Jest должен быть установлен');
-  assert(!pkg.devDependencies.vitest, 'Предыдущий runner удалён');
-  assert.match(pkg.scripts.test, /^jest\b/);
+  assert.equal(pkg.scripts.test, 'jest');
   assert.equal(pkg.scripts['test:e2e'], 'playwright test');
   const { default: config } = await import('../jest.config.cjs');
   assert(config.testMatch.every(pattern => pattern.includes('/tests/')), 'Jest не захватывает e2e');
   assert.equal(config.testEnvironment, 'jsdom');
-  assert(slides.find(slide => slide.id === 'aaa').code.includes('@jest/globals'));
-  assert(slides.find(slide => slide.id === 'component-test').code.includes('jest.fn'));
-  assert(slides.some(slide => slide.id === 'unit-setup'));
-  assert(!/vitest|\bvi\.fn\b/i.test(source), 'Примеры и объяснения полностью переведены');
-});
-
-test('запуск Jest показан без флагов, методология AAA объяснена до примера', async () => {
-  const setup = slides.find(slide => slide.id === 'unit-setup');
-  assert(setup.code.includes('"test": "jest"'));
-  assert(!/runInBand|watchAll|test:watch/.test(JSON.stringify(setup)));
-  const index = slides.findIndex(slide => slide.id === 'aaa');
-  const methodology = slides[index - 1];
-  assert.equal(methodology.id, 'aaa-methodology');
-  assert.equal(methodology.cards.length, 3);
-  assert.deepEqual(methodology.cards.map(card => card[0]), ['Arrange — подготовка', 'Act — действие', 'Assert — проверка']);
-  assert(!methodology.code, 'Методология сначала объясняется отдельно от примера кода');
-  const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
-  assert.equal(pkg.scripts.test, 'jest');
-});
-
-test('основной показ объясняет риски и реальные случаи, а не пересказывает API', () => {
-  const codeSlides = slides.filter(slide => slide.code);
-  assert(codeSlides.length <= 6, 'Не более шести коротких примеров кода');
-  for (const slide of codeSlides) assert(slide.code.split('\n').length <= 9, `${slide.id}: слишком длинный код`);
-  for (const id of ['incident-knight', 'incident-gitlab', 'incident-cloudflare']) {
-    const slide = slides.find(slide => slide.id === id);
-    assert(slide && !slide.code, `${id}: нужен понятный разбор без кода`);
-    assert(slide.links?.some(([label, href]) => /^\[\d\]/.test(label) && href.startsWith('https:')), `${id}: ссылка на первичный источник`);
+  const unitExample = slides.find(slide => slide.id === 'aaa');
+  assert.equal(unitExample.chapter, 'unit');
+  assert(unitExample.code.includes('@jest/globals'));
+  assert(unitExample.code.includes('toBeNull'));
+  for (const step of ['Arrange', 'Act', 'Assert']) assert(unitExample.code.includes(step));
+  const browserExample = slides.find(slide => slide.id === 'first-e2e');
+  assert.equal(browserExample.chapter, 'e2e');
+  assert(!browserExample.code);
+  assert.match(browserExample.lead, /Playwright/);
+  for (const slide of slides.filter(slide => slide.code)) {
+    assert(slide.code.split('\n').length <= 9, `${slide.id}: короткий пример кода`);
   }
-  assert(slides.some(slide => slide.id === 'false-success'));
-  assert(slides.some(slide => slide.id === 'double-submit'));
-  assert(!slides.some(slide => slide.id === 'jest-transform'), 'Babel-конфиг остаётся в документации, а не в основном показе');
-  assert(slides.find(slide => slide.id === 'incident-cloudflare').takeaway.includes('Тесты были'));
 });
 
-test('учебные ссылки, практика, решение и первичные источники существуют', async () => {
+test('реальные инциденты ссылаются на первичные источники', () => {
+  for (const [id, href] of [
+    ['incident-knight', 'https://www.sec.gov/newsroom/press-releases/2013-222'],
+    ['incident-gitlab', 'https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/'],
+    ['incident-cloudflare', 'https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/'],
+  ]) {
+    const incident = slides.find(slide => slide.id === id);
+    assert(incident && !incident.code, `${id}: разбор без кода`);
+    assert(incident.links.some(([, target]) => target === href), `${id}: первичный источник`);
+  }
+});
+
+test('снимки примеров доступны локально и имеют текстовые описания', async () => {
+  assert(slides.some(slide => slide.examples?.length), 'Снимки примеров сохранены в лекции');
+  for (const slide of slides) {
+    if (slide.examples?.length > 1) assert(slide.examplesSideBySide, `${slide.id}: снимки видны вместе`);
+    for (const { src, alt } of slide.examples || []) {
+      assert.match(src, /^\.\/examples\/[a-z-]+\.png$/);
+      assert(alt?.trim(), `${slide.id}: описание снимка`);
+      const bytes = await readFile(new URL('../public/' + src.slice(2), import.meta.url));
+      assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', `${slide.id}: нужен настоящий PNG`);
+    }
+  }
+});
+
+test('практика и материалы доступны для самостоятельной работы', async () => {
+  const resources = slides.find(slide => slide.id === 'resources');
+  for (const href of ['./docs/practice.md', '../../packages/testing-lecture/README.md']) {
+    assert(resources.links.some(([, target]) => target === href), `${href}: ссылка с материалами`);
+  }
   for (const slide of slides) {
     const links = [...(slide.links || []).map(item => item[1]), ...(slide.link ? [slide.link.href] : [])];
     for (const href of links.filter(href => !href.startsWith('https:'))) {
       await access(new URL('../' + (href.startsWith('./docs/') ? './public/' + href.slice(2) : href), import.meta.url));
     }
   }
-  for (const file of ['docs/practice.md', 'docs/solution.md', 'docs/prior-knowledge.md', 'docs/sources.md', 'docs/speaker-guide.md', 'README.md']) {
+  for (const file of ['docs/practice.md', 'docs/solution.md', 'docs/prior-knowledge.md', 'docs/sources.md', 'docs/speaker-guide.md', 'README.md', 'shop/index.html']) {
     await access(new URL('../' + (file.startsWith('docs/') ? 'public/' + file : file), import.meta.url));
   }
 });

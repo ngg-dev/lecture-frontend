@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-11-06T20:37:15.750Z",
+  "baseURL": "http://127.0.0.1:4170/lectures/testing-lecture/",
+  "examples": [
+    {
+      "file": "shop-overview.png",
+      "source": "shop/ · настоящий React DOM",
+      "conditions": "Одна книга добавлена в корзину. Редактор цены скрыт на время съёмки",
+      "expected": "Карточка 690 ₽; корзина 690 ₽"
+    },
+    {
+      "file": "shop-empty.png",
+      "source": "shop/ · настоящий React DOM",
+      "conditions": "Пустое поле; нажатие «Сохранить»",
+      "expected": "Ошибка валидации, прежняя цена 690 ₽"
+    },
+    {
+      "file": "shop-pending.png",
+      "source": "shop/?mode=api · React DOM + Playwright route",
+      "conditions": "PATCH удерживается управляемым Promise; draft 790",
+      "expected": "«Сохраняем…» и disabled, цена ещё 690 ₽. Mock API проверяет только фронтенд"
+    },
+    {
+      "file": "shop-error.png",
+      "source": "shop/?mode=api · React DOM + Playwright route",
+      "conditions": "Первый PATCH отвечает HTTP 500",
+      "expected": "Ошибка, ввод 790 сохранён, цена 690 ₽. Mock API проверяет только фронтенд"
+    },
+    {
+      "file": "shop-retry.png",
+      "source": "shop/?mode=api · React DOM + Playwright route",
+      "conditions": "Повторный PATCH отвечает ценой 790",
+      "expected": "«Цена сохранена», карточка 790 ₽. Mock API проверяет только фронтенд"
+    },
+    {
+      "file": "shop-cart.png",
+      "source": "shop/ · настоящий React DOM",
+      "conditions": "Две книги; цена изменена на 790",
+      "expected": "Карточка 790 ₽; Стихи Пушкина × 2; итог 1580 ₽"
+    },
+    {
+      "file": "jest-red.png",
+      "source": "stdout + stderr настоящего Jest; HTML отображает текст вывода без вымышленных строк",
+      "conditions": "Фрагмент настоящего вывода намеренно неуспешного теста временной копии. Полный вывод в .generated/examples/jest-red.txt. Исходник магазина не меняется",
+      "expected": "Exit 1, Received: 0 вместо null",
+      "command": "Jest · изолированная копия parsePrice без проверки пустоты"
+    },
+    {
+      "file": "jest-green.png",
+      "source": "stdout + stderr настоящего Jest; HTML отображает текст вывода без вымышленных строк",
+      "conditions": "Текущие unit и компонентные тесты пакета",
+      "expected": "Exit 0, все unit и компонентные тесты прошли",
+      "command": "npx jest --runInBand --verbose --runTestsByPath tests/model.test.ts tests/PriceEditor.test.tsx"
+    },
+    {
+      "file": "playwright-report.png",
+      "source": "Настоящий HTML report Playwright",
+      "conditions": "e2e/shop.spec.ts в Chromium, включая контролируемый отказ API",
+      "expected": "3 passed. Сценарий с mock API проверяет фронтенд, не реальный backend",
+      "command": "LECTURE_BASE_URL=http://127.0.0.1:4170/lectures/testing-lecture/ npx playwright test e2e/shop.spec.ts --reporter=html --trace=on"
+    },
+    {
+      "file": "playwright-trace.png",
+      "source": "Настоящий Playwright Trace Viewer из HTML-отчёта",
+      "conditions": "Тест «ошибка API не меняет цену; повтор сохраняет её», вкладка Network",
+      "expected": "Первый PATCH возвращает 500; повторный PATCH возвращает 200. Ответы подменены тестом",
+      "command": "LECTURE_BASE_URL=http://127.0.0.1:4170/lectures/testing-lecture/ npx playwright test e2e/shop.spec.ts --reporter=html --trace=on"
+    },
+    {
+      "file": "playwright-ui.png",
+      "source": "Настоящий Playwright UI Mode",
+      "conditions": "Все тесты магазина запущены из интерфейса; выбран сценарий сохранения цены",
+      "expected": "3 passed; видны шаги и снимок магазина",
+      "command": "npx playwright test e2e/shop.spec.ts --ui-host=127.0.0.1 --ui-port=0 --output=.generated/examples/playwright-ui-results"
+    }
+  ]
+}

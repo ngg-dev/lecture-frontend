@@ -11,7 +11,7 @@ export function Shop() {
   useEffect(() => {
     if (!apiMode) return;
     let active = true;
-    fetch('./api/books/solaris').then(response => {
+    fetch('./api/books/pushkin-poems').then(response => {
       if (!response.ok) throw new Error('HTTP ' + response.status);
       return response.json();
     }).then(book => { if (active) { setPrice(book.price); setReady(true); } })
@@ -20,7 +20,7 @@ export function Shop() {
   }, [apiMode]);
   async function save(value: number) {
     if (apiMode) {
-      const response = await fetch('./api/books/solaris', {
+      const response = await fetch('./api/books/pushkin-poems', {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ price: value }),
       });
       if (!response.ok) throw new Error('HTTP ' + response.status);
@@ -32,13 +32,13 @@ export function Shop() {
   return <main className="shop-page">
     <a href="../">← К лекции</a><p className="eyebrow">СКВОЗНОЙ ПРИМЕР / КНИЖНЫЙ МАГАЗИН</p>
     <h1>Проверяем не код. Обещание пользователю.</h1>
-    <article aria-label="Солярис"><p>СТАНИСЛАВ ЛЕМ</p><h2>Солярис</h2>
+    <article aria-label="Стихи Пушкина"><p>АЛЕКСАНДР ПУШКИН</p><h2>Стихи Пушкина</h2>
       <p aria-label="Цена книги">{price} ₽</p>
       <button onClick={() => setCount(value => value + 1)}>В корзину</button>
       <PriceEditor price={price} onSave={save} />
     </article>
     <section aria-label="Корзина"><h2>Корзина</h2>
-      {count ? <><p>Солярис × {count}</p><p>Итого: {price * count} ₽</p></> : <p>Корзина пуста</p>}
+      {count ? <><p>Стихи Пушкина × {count}</p><p>Итого: {price * count} ₽</p></> : <p>Корзина пуста</p>}
     </section>
     <p>Цена и корзина живут в памяти страницы. Перезагрузка сбрасывает данные. Это локальное демо, не настоящий сервер.</p>
   </main>;
