@@ -13,7 +13,8 @@ export const sources = {
   spring: ['Сравнение NestJS и Spring Boot', 'https://docs.nestjs.com/recipes/spring-boot'],
   bff: ['Паттерн Backend for Frontend', 'https://learn.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends'],
   yandex: ['Доклад команды Яндекс.Маркета о BFF', 'https://habr.com/ru/companies/yandex/articles/428141/'],
-  fastify: ['Логирование в Fastify', 'https://fastify.dev/docs/latest/Reference/Logging/'],
+  getnet: ['Как Getnet добавила Pix на платёжные терминалы', 'https://www.sensedia.com/customer-story/getnet-enables-qr-code-based-pix-activation-on-its-terminals'],
+  immich: ['Архитектура сервера Immich', 'https://docs.immich.app/developer/architecture/'],
 };
 
 const slide = (id, chapter, title, minutes, notes, details = {}) =>
@@ -179,12 +180,17 @@ export const slides = [
       takeaway: 'Например, BFF может собрать список магазинов и их настройки в одном ответе.',
       sources: ['yandex'], showSources: true
     }),
-  slide('fastify-logs', 'Реальный пример', 'Node.js пишет журнал запросов', 3,
-    'Fastify работает на Node.js и использует Pino для логирования. Когда журнал включён, Fastify отмечает получение запроса и отправку ответа. На слайде условный заказ и упрощённая запись: статус и длительность. Объяснить, как разработчик по журналу замечает ошибки или медленные запросы. Это пример логирования в Node.js на Fastify.', {
-      lead: 'В Fastify за журнал отвечает Pino. По записи можно увидеть итог запроса и время обработки.',
-      diagram: { title: 'Логирование запроса средствами Fastify и Pino', nodes: [['Запрос', 'Оформить заказ'], ['Fastify', 'Обрабатывает запрос'], ['Pino', 'Записывает статус и время']], links: ['HTTP', 'событие'], focus: 2 },
-      takeaway: 'Пример записи в журнале: запрос завершён · HTTP 201 · 42 мс.',
-      sources: ['fastify'], showSources: true
+  slide('getnet-pix', 'Продукт на NestJS · Финтех', 'Getnet принимает оплату по QR-коду', 2,
+    'Показать оплату глазами покупателя. Терминал Getnet выводит QR-код Pix, покупатель сканирует его приложением своего банка. По кейсу команды внедрения Sensedia, API сервисов, обслуживающих эту функцию Getnet, построены на NestJS. Указать на средний блок и связать его с уже знакомой схемой запроса.', {
+      lead: 'Покупатель сканирует QR-код на терминале Getnet и платит через Pix в банковском приложении.',
+      diagram: { title: 'Функция QR-оплаты Getnet Pix', nodes: [['Терминал Getnet', 'Запрашивает QR-код'], ['API на NestJS', 'Обслуживает функцию Pix'], ['QR-код на экране', 'Покупатель сканирует и платит']], links: ['запрос на оплату', 'код для оплаты'], focus: 1 },
+      sources: ['getnet'], showSources: true
+    }),
+  slide('immich-photos', 'Продукт на NestJS · Фотографии', 'Immich загружает и обрабатывает фото', 1,
+    'Пользователь загружает фото с телефона или из браузера. Сервер Immich построен на NestJS и принимает запросы к REST API. Долгие задачи, например создание превью, выполняются в фоне. Предложить проследить, где заканчивается запрос и начинается отдельная задача.', {
+      lead: 'Пользователь загружает снимок в фототеку. Сервер принимает файл, а фоновый процесс готовит превью.',
+      diagram: { title: 'Загрузка фотографии в Immich', nodes: [['Приложение', 'Отправляет снимок'], ['API на NestJS', 'Принимает загрузку'], ['Фоновый процесс', 'Готовит превью']], links: ['загрузка', 'задача'], focus: 1 },
+      sources: ['immich'], showSources: true
     }),
   slide('recap', 'Итог', 'Теперь можно объяснить, кто за что отвечает', 3,
     'Ещё раз кратко пройти путь заказа и указать, зачем нужна граница модуля. Напомнить, что общий тип помогает при разработке, а база сохраняет состояние между запусками. После лекции можно открыть самостоятельный пример и посмотреть рабочий API, включая MongoDB и изменение цены.', {
