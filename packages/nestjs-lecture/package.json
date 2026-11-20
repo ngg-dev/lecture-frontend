@@ -1,0 +1,32 @@
+{
+  "name": "nestjs-lecture",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs && npm test",
+    "test": "node scripts/build-api.mjs && node --test tests/*.test.mjs",
+    "api": "node scripts/build-api.mjs && node api/dist/main.js",
+    "seed": "node api/seed.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.0",
+    "@nestjs/core": "^11.1.0",
+    "@nestjs/platform-express": "^11.1.0",
+    "@nestjs/mongoose": "^11.0.0",
+    "mongoose": "^8.19.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/plugin-proposal-decorators": "^7.28.0",
+    "esbuild": "^0.28.0"
+  }
+}

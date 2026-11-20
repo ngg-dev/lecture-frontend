@@ -46,5 +46,13 @@
     "output": "dist",
     "check": true,
     "build": true
+  },
+  {
+    "id": "nestjs-lecture",
+    "title": "NestJS: бэкенд на TypeScript",
+    "summary": "Модульный API, аналогии с Java, общие типы и MongoDB",
+    "output": "deck",
+    "check": true,
+    "build": true
   }
 ]

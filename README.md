@@ -10,6 +10,7 @@
 4. [React: маршруты, состояние и кеш](lectures/react-state-managers/).
 5. [TypeScript: от данных к React](lectures/ts-lecture/).
 6. [Unit и e2e: проверяем обещания магазина](lectures/testing-lecture/) — 47 слайдов, 70 минут + 20 минут практики; Jest, Testing Library, Playwright.
+7. [NestJS: бэкенд на TypeScript](lectures/nestjs-lecture/) — архитектура, модульность, общие типы и MongoDB; 65 минут + вопросы.
 
 Дополнительно: [Hermes Agent](lectures/hermes/), [от HTML до пикселя](lectures/test/).
 
