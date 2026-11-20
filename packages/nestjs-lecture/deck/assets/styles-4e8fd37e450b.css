@@ -122,3 +122,59 @@
   .mongo-document, .mongo-collection { padding: 18px; }
   .table-wrap td, .table-wrap th { overflow-wrap: anywhere; }
 }
+
+.technology-slide h2 {
+  max-width: 1100px;
+  font-size: clamp(2.45rem, 5.55vw, 5.15rem);
+  font-weight: 550;
+  line-height: 1.06;
+  letter-spacing: -.065em;
+  overflow-wrap: normal;
+}
+.technology-name { white-space: nowrap; }
+.technology-name--lime { color: var(--lime); }
+.technology-name--coral { color: var(--coral); }
+.technology-slide .lesson-cards article {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #202224;
+}
+.technology-slide .lesson-cards h3 { margin: 0 0 10px; }
+#runtime .lesson-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 36px 0 0;
+}
+#runtime .lesson-cards article {
+  padding: clamp(20px, 3.1vw, 44px);
+  --card-accent: var(--lime);
+  border-color: #53613d;
+  background: #22281f;
+}
+#runtime .lesson-cards article + article {
+  --card-accent: var(--coral);
+  border-color: #65463f;
+  background: #2e2323;
+}
+#runtime .lesson-cards h3 {
+  color: var(--card-accent);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 550;
+  letter-spacing: -.065em;
+}
+#runtime .lesson-cards p {
+  color: var(--text);
+  max-width: 29ch;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.08rem, 1.8vw, 1.6rem);
+  font-style: italic;
+  line-height: 1.38;
+}
+.technology-slide .diagram-node.is-focus { border-color: var(--lime); background: #22281f; }
+.technology-slide .diagram-node.is-focus strong { color: var(--lime); }
+#nestjs .diagram-node.is-focus { border-color: var(--coral); background: #2e2323; }
+#nestjs .diagram-node.is-focus strong { color: var(--coral); }
+@media (max-width: 620px) {
+  #runtime .lesson-cards { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+}

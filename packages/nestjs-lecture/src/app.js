@@ -16,12 +16,21 @@ function sourceLinks(keys = []) {
   }).join('');
 }
 
+function renderTitle(slide) {
+  const title = escape(slide.title);
+  if (slide.kind !== 'technology') return title;
+  return title.replace(/Node\.js|NestJS|MongoDB/g, name => {
+    const accent = name === 'NestJS' ? 'coral' : 'lime';
+    return `<span class="technology-name technology-name--${accent}">${name}</span>`;
+  });
+}
+
 function renderSlide(slide) {
   if (slide.kind === 'shop') {
     return `<h2 id="shop-title" class="visually-hidden">${escape(slide.title)}</h2><div id="shop-root"></div>`;
   }
   return `<div class="eyebrow"><span></span>${escape(slide.chapter.toUpperCase())}</div>
-    <h2 id="${slide.id}-title">${escape(slide.title)}</h2>
+    <h2 id="${slide.id}-title">${renderTitle(slide)}</h2>
     ${slide.lead ? `<p class="section-lead">${escape(slide.lead)}</p>` : ''}
     ${slide.diagram ? renderDiagram(slide.diagram) : ''}
     ${slide.record ? renderRecord(slide.record) : ''}
