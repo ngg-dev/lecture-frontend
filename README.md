@@ -2,7 +2,13 @@
 
 **[Открыть все лекции](https://ngg-dev.github.io/lecture-frontend/)**
 
-## Курс
+## Первые лекции программы — PDF
+
+- [Введение во фронтенд-разработку](lectures/frontend-intro/lecture.pdf) — 27 страниц.
+- [Введение в JavaScript через призму C](lectures/javascript-intro/lecture.pdf) — 37 страниц.
+- [Надёжный фронтенд на JS](lectures/reliable-frontend-js/lecture.pdf) — 19 страниц.
+
+## Веб-презентации курса
 
 1. [Вводная: что делает фронтенд-разработчик](lectures/it-lecture/).
 2. [React: от JavaScript к компонентам](lectures/react-lecture/).
